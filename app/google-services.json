@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "18183538307",
+    "project_id": "happybuddy-a6b40",
+    "storage_bucket": "happybuddy-a6b40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18183538307:android:e41a0c65b84b18a3f1bdb6",
+        "android_client_info": {
+          "package_name": "ara.tfg.happybuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "18183538307-liuhhvrpj1nf24c3left4je155v9fdvr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiFqQUFjx1Iz__20boWIp14hT_ZBW1pt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "18183538307-liuhhvrpj1nf24c3left4je155v9fdvr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
