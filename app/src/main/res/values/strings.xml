@@ -19,6 +19,7 @@
     <string name="empty_fields">Es necesario introducir datos</string>
     <string name="aviso">Aviso</string>
     <string name="envio_contra">¿Quieres recibir un email de restablecimiento de contraseña en el correo especificado?</string>
+    <string name="perfil">Perfil</string>
 
     <string name="solicitar_cita">Solicitar cita</string>
     <string name="choose_date">¿Para cuando quieres pedir cita?</string>
