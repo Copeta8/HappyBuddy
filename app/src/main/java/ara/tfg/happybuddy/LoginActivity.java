@@ -3,11 +3,17 @@ package ara.tfg.happybuddy;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.method.PasswordTransformationMethod;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.identity.BeginSignInRequest;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -82,19 +90,45 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 email = etEmail.getText().toString();
 
+                String mensaje = R.string.envio_contra + etEmail.getText().toString();
+
                 if (!email.isEmpty()) {
-                    mAuth.sendPasswordResetEmail(email)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d(TAG, "Email sent.");
-                                    }
-                                }
-                            });
+                    AlertDialog.Builder dialogo = new AlertDialog.Builder(LoginActivity.this);
+                    dialogo.setTitle(R.string.aviso);
+                    //Para que muestre correctamente el texto no puedo invocarlo desde los recursos de string.xml
+
+                    String msgPart1 = getString(R.string.envio_contra);
+                    SpannableString msg = new SpannableString(msgPart1 + "\n" + etEmail.getText().toString());
+                    msg.setSpan(new StyleSpan(Typeface.BOLD), msgPart1.length() + 1, msgPart1.length() + etEmail.getText().toString().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    dialogo.setMessage(msg);
+
+                    //dialogo.setMessage(getString(R.string.envio_contra) + "\n" + etEmail.getText().toString());
+
+                    dialogo.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mAuth.sendPasswordResetEmail(email)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "Email sent.");
+                                            }
+                                        }
+                                    });
+                        }
+                    });
+                    dialogo.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    dialogo.show();
                 }else{
                     Toast.makeText(LoginActivity.this, R.string.empty_fields, Toast.LENGTH_LONG).show();
                 }
+
             }
         });
 
@@ -105,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                     etPassword.setTransformationMethod(new PasswordTransformationMethod());
                     ivShowPass.setImageDrawable(getResources().getDrawable(R.drawable.hide));
                     isShowPassword = false;
-                }else{
+                } else {
                     etPassword.setTransformationMethod(null);
                     ivShowPass.setImageDrawable(getResources().getDrawable(R.drawable.view));
                     isShowPassword = true;
