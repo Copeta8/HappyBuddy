@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etEmail;
     private EditText etPassword;
     private TextView tvResetPass;
+    private TextView tvDireccion;
     private Button btLogin;
     private ImageView ivShowPass;
 
@@ -55,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         tvResetPass = findViewById(R.id.tvResetPass);
+        tvDireccion = findViewById(R.id.tvDireccion);
         btLogin = findViewById(R.id.btLogin);
         ivShowPass = findViewById(R.id.ivShowPassword);
 
@@ -125,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                     dialogo.show();
-                }else{
+                } else {
                     Toast.makeText(LoginActivity.this, R.string.empty_fields, Toast.LENGTH_LONG).show();
                 }
 
@@ -146,6 +149,18 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        tvDireccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Se crea un intent encargado de abrir un mapa con la localizacion de la empresa
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://goo.gl/maps/KZ39U9V8dGjxoEmo7"));
+                //Se inicia el intent
+                startActivity(intent);
+            }
+        });
+
 
     }
 
