@@ -16,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import ara.tfg.happybuddy.databinding.FragmentCitasBinding;
+
 public class CitasFragment extends Fragment {
 
     private FragmentCitasBinding binding;

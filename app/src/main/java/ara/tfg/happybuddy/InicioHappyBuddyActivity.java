@@ -1,16 +1,21 @@
 package ara.tfg.happybuddy;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
-import android.widget.EditText;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
@@ -20,7 +25,10 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 import ara.tfg.happybuddy.databinding.ActivityInicioHappyBuddyBinding;
+import ara.tfg.happybuddy.model.Usuario;
 
 public class InicioHappyBuddyActivity extends AppCompatActivity {
 
@@ -28,6 +36,10 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
     private ActivityInicioHappyBuddyBinding binding;
 
     private FirebaseAuth auth;
+    private FirebaseFirestore mDatabase;
+    FirebaseUser userFB;
+
+    ArrayList<Usuario> usuarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +49,8 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         auth = FirebaseAuth.getInstance();
-        FirebaseUser userFB = auth.getCurrentUser();
+        userFB = auth.getCurrentUser();
 
-        userFB.getMetadata().getCreationTimestamp();
 
         setSupportActionBar(binding.appBarInicioHappyBuddy.toolbar);
 
@@ -56,11 +67,46 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+
+    public void defineMenu(Menu menu) {
+
+        mDatabase = FirebaseFirestore.getInstance();
+
+        usuarios = new ArrayList<Usuario>();
+
+        mDatabase.collection("usuarios").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        usuarios.add(document.toObject(Usuario.class));
+                    }
+
+                    for (Usuario usuario : usuarios) {
+                        if (usuario.getUID().equals(userFB.getUid())) {
+                            if (usuario.isAdmin() == true){
+                                getMenuInflater().inflate(R.menu.inicio_happy_buddy_profesional, menu);
+                            }else{
+                                getMenuInflater().inflate(R.menu.inicio_happy_buddy, menu);
+                            }
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.inicio_happy_buddy, menu);
+        //getMenuInflater().inflate(R.menu.inicio_happy_buddy, menu);
+        defineMenu(menu);
         return true;
+
     }
 
     @Override
@@ -70,6 +116,10 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
             case R.id.action_logout:
                 auth.signOut();
                 startActivity(new Intent(InicioHappyBuddyActivity.this, LoginActivity.class));
+                finish();
+                return true;
+            case R.id.action_crearUsuario:
+                startActivity(new Intent(InicioHappyBuddyActivity.this, NuevoUsuarioActivity.class));
                 finish();
                 return true;
             default:

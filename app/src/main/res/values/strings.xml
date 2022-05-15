@@ -27,7 +27,33 @@
     <string name="choose_date">¿Para cuando quieres pedir cita?</string>
     <string name="hora">Hora</string>
     <string name="fecha">Fecha seleccionada:</string>
-    <string name="direccion">c/ Carrer del Capità Baltasar Tristany, 58, Elche</string>
+    <string name="direccion_app">c/ Carrer del Capità Baltasar Tristany, 58, Elche</string>
+
+    <string name="nuevo_usuario">Registrar nuevo usuario</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="telefono">Teléfono</string>
+    <string name="direccion">Dirección</string>
+    <string name="fecha_nacimiento">Fecha de nacimiento</string>
+    <string name="pais">Pais</string>
+    <string name="Trabajador">Trabajador</string>
+
+    <string name="genero">Género</string>
+    <string-array name="generos">
+        <item>Hombre</item>
+        <item>Mujer</item>
+        <item>No binario</item>
+        <item>Prefiero no contestar</item>
+    </string-array>
+
+    <string name="estado_civil">Estado civil</string>
+    <string-array name="estados_civiles">
+        <item>Soltero</item>
+        <item>Casado</item>
+        <item>Viudo</item>
+        <item>Divorciado</item>
+    </string-array>
+
 
 
     <string name="title_activity_main2">MainActivity2</string>

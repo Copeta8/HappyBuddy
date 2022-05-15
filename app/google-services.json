@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "18183538307-hkkjkv1gb2br7dnsqlmpd3fo86sh12vp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ara.tfg.happybuddy",
+            "certificate_hash": "82eb0fe2e5abb0b70cdd23ebe0101c21dfaf87d2"
+          }
+        },
+        {
           "client_id": "18183538307-liuhhvrpj1nf24c3left4je155v9fdvr.apps.googleusercontent.com",
           "client_type": 3
         }

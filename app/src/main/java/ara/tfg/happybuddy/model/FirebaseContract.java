@@ -16,6 +16,7 @@ public class FirebaseContract {
         public static final String PAIS = "pais";
         public static final String DIRECCION = "direccion";
         public static final String ESTADO_CIVIL = "estado_civil";
+        public static final String ADMIN = "admin";
     }
 
 

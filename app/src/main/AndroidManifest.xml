@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyBuddy">
         <activity
+            android:name=".NuevoUsuarioActivity"
+            android:exported="false" />
+        <activity
             android:name=".InicioHappyBuddyActivity"
             android:exported="false"
             android:label="@string/title_activity_inicio_happy_buddy"
