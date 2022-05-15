@@ -1,4 +1,4 @@
-package ara.tfg.happybuddy.ui.gallery;
+package ara.tfg.happybuddy.ui.citas;
 
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
@@ -16,8 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import ara.tfg.happybuddy.databinding.FragmentCitasBinding;
 
 public class CitasFragment extends Fragment {
 

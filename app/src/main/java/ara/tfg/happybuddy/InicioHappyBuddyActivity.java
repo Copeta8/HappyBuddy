@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -38,6 +39,8 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         FirebaseUser userFB = auth.getCurrentUser();
 
+        userFB.getMetadata().getCreationTimestamp();
+
         setSupportActionBar(binding.appBarInicioHappyBuddy.toolbar);
 
         DrawerLayout drawer = binding.drawerLayout;
@@ -63,7 +66,7 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //return super.onOptionsItemSelected(item);
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_logout:
                 auth.signOut();
                 startActivity(new Intent(InicioHappyBuddyActivity.this, LoginActivity.class));

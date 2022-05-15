@@ -1,7 +1,5 @@
-package ara.tfg.happybuddy.ui.gallery;
+package ara.tfg.happybuddy.ui.citas;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class CitasViewModel extends ViewModel {

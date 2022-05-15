@@ -93,21 +93,17 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 email = etEmail.getText().toString();
 
-                String mensaje = R.string.envio_contra + etEmail.getText().toString();
-
                 if (!email.isEmpty()) {
                     AlertDialog.Builder dialogo = new AlertDialog.Builder(LoginActivity.this);
                     dialogo.setTitle(R.string.aviso);
                     //Para que muestre correctamente el texto no puedo invocarlo desde los recursos de string.xml
 
                     String msgPart1 = getString(R.string.envio_contra);
-                    SpannableString msg = new SpannableString(msgPart1 + "\n" + etEmail.getText().toString());
+                    SpannableString msg = new SpannableString(msgPart1 + "\n\n" + etEmail.getText().toString());
                     msg.setSpan(new StyleSpan(Typeface.BOLD), msgPart1.length() + 1, msgPart1.length() + etEmail.getText().toString().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     dialogo.setMessage(msg);
 
-                    //dialogo.setMessage(getString(R.string.envio_contra) + "\n" + etEmail.getText().toString());
-
-                    dialogo.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    dialogo.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             mAuth.sendPasswordResetEmail(email)
@@ -115,13 +111,13 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-                                                Log.d(TAG, "Email sent.");
+                                                Log.d(TAG, "Email enviado.");
                                             }
                                         }
                                     });
                         }
                     });
-                    dialogo.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    dialogo.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -160,8 +156,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     private void comprobarAutenticacion() {
