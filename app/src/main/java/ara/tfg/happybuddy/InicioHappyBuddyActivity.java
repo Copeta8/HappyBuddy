@@ -65,8 +65,8 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_inicio_happy_buddy);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-    }
 
+    }
 
     public void defineMenu(Menu menu) {
 
@@ -84,20 +84,35 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
                         usuarios.add(document.toObject(Usuario.class));
                     }
 
-                    for (Usuario usuario : usuarios) {
-                        if (usuario.getUID().equals(userFB.getUid())) {
-                            if (usuario.isAdmin() == true){
-                                getMenuInflater().inflate(R.menu.inicio_happy_buddy_profesional, menu);
-                            }else{
-                                getMenuInflater().inflate(R.menu.inicio_happy_buddy, menu);
-                            }
-                        }
+                    if (esAdmin()) {
+                        getMenuInflater().inflate(R.menu.inicio_happy_buddy_profesional, menu);
+                    } else {
+                        getMenuInflater().inflate(R.menu.inicio_happy_buddy, menu);
                     }
+
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
         });
+    }
+
+
+    public boolean esAdmin() {
+
+        boolean esAdmin = false;
+
+        for (Usuario usuario : usuarios) {
+
+            if (usuario.getUID().equals(userFB.getUid())) {
+
+                if (usuario.isAdmin() == true) {
+                    esAdmin = true;
+                }
+            }
+        }
+
+        return esAdmin;
     }
 
     @Override

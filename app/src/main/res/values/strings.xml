@@ -27,6 +27,7 @@
     <string name="choose_date">¿Para cuando quieres pedir cita?</string>
     <string name="hora">Hora</string>
     <string name="fecha">Fecha seleccionada:</string>
+    <string name="elige_profesional">Elige un profesional</string>
     <string name="direccion_app">c/ Carrer del Capità Baltasar Tristany, 58, Elche</string>
 
     <string name="nuevo_usuario">Registrar nuevo usuario</string>

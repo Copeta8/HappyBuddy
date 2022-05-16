@@ -19,5 +19,18 @@ public class FirebaseContract {
         public static final String ADMIN = "admin";
     }
 
+    public static class CitasEntry {
+        public static final String NODE_NAME = "citas";
+        public static final String PACIENTE_UID = "paciente_uid";
+        public static final String PROFESIONAL_UID = "profesional_uid";
+        public static final String FECHA = "fecha";
+    }
 
+    public static class ProfesionalEntry {
+        public static final String NODE_NAME = "profesionales";
+        public static final String NOMBRE_COMPLETO = "nombre_completo";
+        public static final String MASTER = "master";
+        public static final String INICIO_TRABAJO = "inicio_trabajo";
+        public static final String ID = "usuario_uid";
+    }
 }

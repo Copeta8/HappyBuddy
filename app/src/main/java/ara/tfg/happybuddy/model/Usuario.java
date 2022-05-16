@@ -1,6 +1,7 @@
 package ara.tfg.happybuddy.model;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,14 +14,15 @@ public class Usuario {
     private String direccion;
     private String email;
     private String estado_civil;
-    private Timestamp fecha_nacimiento;
+    @ServerTimestamp
+    private Date fecha_nacimiento;
     private String genero;
     private String nombre;
     private String num_telefono;
     private String pais;
 
 
-    public Usuario(String UID, boolean admin, String apellidos, String direccion, String email, String estado_civil, Timestamp fecha_nacimiento, String genero, String nombre, String num_telefono, String pais) {
+    public Usuario(String UID, boolean admin, String apellidos, String direccion, String email, String estado_civil, Date fecha_nacimiento, String genero, String nombre, String num_telefono, String pais) {
         this.UID = UID;
         this.admin = admin;
         this.apellidos = apellidos;
@@ -85,11 +87,11 @@ public class Usuario {
         this.estado_civil = estado_civil;
     }
 
-    public Timestamp getFecha_nacimiento() {
+    public Date getFecha_nacimiento() {
         return fecha_nacimiento;
     }
 
-    public void setFecha_nacimiento(Timestamp fecha_nacimiento) {
+    public void setFecha_nacimiento(Date fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
 
