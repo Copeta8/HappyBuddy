@@ -12,13 +12,15 @@ public class Citas {
     Timestamp fecha;
 
     private String paciente_UID;
+    private String profesional_UID;
 
     public Citas() {
     }
 
-    public Citas(Timestamp fecha, String paciente_UID) {
+    public Citas(Timestamp fecha, String paciente_UID, String profesional_UID) {
         this.fecha = fecha;
         this.paciente_UID = paciente_UID;
+        this.profesional_UID = profesional_UID;
     }
 
     public Timestamp getFecha() {
@@ -37,11 +39,19 @@ public class Citas {
         this.paciente_UID = paciente_UID;
     }
 
+    public String getProfesional_UID() {
+        return profesional_UID;
+    }
+
+    public void setProfesional_UID(String profesional_UID) {
+        this.profesional_UID = profesional_UID;
+    }
+
     public String fechaFormatoLocal() {
         long unix_seconds = fecha.getSeconds();
 
         //convert seconds to milliseconds
-        Date date = new Date(unix_seconds*1000L);
+        Date date = new Date(unix_seconds * 1000L);
 
         // format of the date
         SimpleDateFormat jdf = new SimpleDateFormat("dd-MM-yyyy");

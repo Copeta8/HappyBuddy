@@ -2,7 +2,10 @@ package ara.tfg.happybuddy.ui.citas;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,6 +53,8 @@ public class CitasFragment extends Fragment {
     ArrayList<Profesional> listaProfesionales;
     private Profesional profesionalElegido;
 
+    ArrayList<Citas> listaCitas;
+
     String hora, dia;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -92,8 +97,8 @@ public class CitasFragment extends Fragment {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 //String selectedDate = sdf.format(new Date(binding.cvApointmentDate.getDate()));
 
-                binding.tvChosenDate.setText(String.valueOf(i2) + "/" + String.valueOf(i1+1) + "/" + String.valueOf(i));
-                dia = String.valueOf(i2) + "/" + String.valueOf(i1) + "/" + String.valueOf(i);
+                binding.tvChosenDate.setText(String.valueOf(i2) + "/" + String.valueOf(i1 + 1) + "/" + String.valueOf(i));
+                dia = String.valueOf(i2) + "/" + String.valueOf(i1 + 1) + "/" + String.valueOf(i);
             }
         });
 
@@ -144,22 +149,40 @@ public class CitasFragment extends Fragment {
 
         Timestamp fechaFormateada = new Timestamp(sdf.parse(fecha));
 
-        //Si el contenido del control no está vacío,
-        if (fechaFormateada != null) {
 
-            //usuario y mensaje
-            Citas cita = new Citas(fechaFormateada, auth.getUid());
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(getContext());
+        dialogo.setTitle(R.string.aviso);
+        dialogo.setMessage("¿Deseas guarda la siguiente cita? \n" + dia + " " + hora);
+        dialogo.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        dialogo.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) { // Borramos
+                if (fechaFormateada != null && profesionalElegido != null) {
 
-            //Se obtiene una instancia de Firestore
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    //usuario y mensaje
+                    Citas cita = new Citas(fechaFormateada, auth.getUid(), profesionalElegido.getusuario_uid());
 
-            db.collection(FirebaseContract.ProfesionalEntry.NODE_NAME)//documento conferencia actual
+                    //Se obtiene una instancia de Firestore
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                    db.collection(FirebaseContract.CitasEntry.NODE_NAME)
+                            .add(cita);
+
+                    /*db.collection(FirebaseContract.ProfesionalEntry.NODE_NAME)//documento conferencia actual
                     .document(profesionalElegido.getusuario_uid()) //subcolección de la conferencia
                     .collection(FirebaseContract.CitasEntry.NODE_NAME) //añadimos el mensaje nuevo
-                    .add(cita);
-            //etMensaje.setText("");
-            //ocultarTeclado();
-        }
+                    .add(cita);*/
+                }
+            }
+        });
+        dialogo.show();
+
+        //Si el contenido del control no está vacío,
+
     }
 
     @Override
