@@ -6,7 +6,7 @@ public class FirebaseContract {
 
     public static class UsuariosEntry {
         public static final String NODE_NAME = "usuarios";
-        public static final String ID = "UID";
+        public static final String ID = "uid";
         public static final String NOMBRE = "nombre";
         public static final String APELLIDOS = "apellidos";
         public static final String EMAIL = "email";

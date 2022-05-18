@@ -51,17 +51,33 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         userFB = auth.getCurrentUser();
 
-
         setSupportActionBar(binding.appBarInicioHappyBuddy.toolbar);
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_cita, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
+
+
+        /*if (esAdmin) {
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_home, R.id.nav_cita, R.id.nav_slideshow)
+                    .setOpenableLayout(drawer)
+                    .build();
+        } else {
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_home, R.id.nav_cita)
+                    .setOpenableLayout(drawer)
+                    .build();
+        }*/
+
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_inicio_happy_buddy);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -79,6 +95,7 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
                         usuarios.add(document.toObject(Usuario.class));
@@ -104,16 +121,19 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
 
         for (Usuario usuario : usuarios) {
 
-            if (usuario.getUID().equals(userFB.getUid())) {
+            if (usuario.getUID() != null) {
 
-                if (usuario.isAdmin() == true) {
-                    esAdmin = true;
+                if (usuario.getUID().equals(userFB.getUid())) {
+
+                    if (usuario.isAdmin() == true) {
+                        esAdmin = true;
+                    }
                 }
             }
         }
-
         return esAdmin;
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

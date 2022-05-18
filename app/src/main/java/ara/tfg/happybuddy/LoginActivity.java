@@ -29,6 +29,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+
+import ara.tfg.happybuddy.model.FirebaseContract;
+import ara.tfg.happybuddy.model.Profesional;
+import ara.tfg.happybuddy.model.Usuario;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -46,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isShowPassword = false;
 
+    ArrayList<Usuario> listaUsuarios;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +72,8 @@ public class LoginActivity extends AppCompatActivity {
         btLogin = findViewById(R.id.btLogin);
         ivShowPass = findViewById(R.id.ivShowPassword);
 
+        obtenerUsuarios();
+
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,18 +82,25 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (!email.isEmpty() && !password.isEmpty()) {
 
-                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+                    for (Usuario usuario : listaUsuarios) {
 
-                            if (task.isSuccessful()) {
-                                startActivity(new Intent(LoginActivity.this, InicioHappyBuddyActivity.class));
-                                finish();
-                            } else {
-                                Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
-                            }
+                        if (usuario.getEmail().equals(email) && usuario.getUID() == null) {
+
+                        } else {
+                            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                    if (task.isSuccessful()) {
+                                        startActivity(new Intent(LoginActivity.this, InicioHappyBuddyActivity.class));
+                                        finish();
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
                         }
-                    });
+                    }
 
                 } else {
                     Toast.makeText(LoginActivity.this, R.string.empty_fields, Toast.LENGTH_LONG).show();
@@ -166,5 +186,30 @@ public class LoginActivity extends AppCompatActivity {
             // Abrimos la actividad que contiene el inicio de la funcionalidad de la app.
             startActivity(new Intent(this, InicioHappyBuddyActivity.class));
         }
+    }
+
+    private void obtenerUsuarios() {
+        //Se crea una instancia de Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        //Se incializa la lista que contendra las conferencias
+        listaUsuarios = new ArrayList<Usuario>();
+
+        //Se llama a Firestore para obtener los documentos de conferencias
+        db.collection(FirebaseContract.UsuariosEntry.NODE_NAME).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                //Si se han cargado los documentos
+                if (task.isSuccessful()) {
+                    //Se van añadiendo a la lista de usuarios
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        listaUsuarios.add(document.toObject(Usuario.class));
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 }

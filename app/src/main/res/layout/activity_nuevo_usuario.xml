@@ -4,12 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:isScrollContainer="true"
+    android:scrollbars="vertical"
     tools:context=".NuevoUsuarioActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -50,21 +55,6 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/etApellidos"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:ems="10"
-                android:fontFamily="@font/roboto_black"
-                android:hint="@string/apellidos"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etNombre" />
-
-            <EditText
                 android:id="@+id/etNombre"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -78,6 +68,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/etApellidos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:fontFamily="@font/roboto_black"
+                android:hint="@string/apellidos"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etNombre" />
 
             <EditText
                 android:id="@+id/etNuevoEmail"
@@ -111,7 +116,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/etNuevoEmail" />
 
             <EditText
-                android:id="@+id/editTextPhone"
+                android:id="@+id/etPais"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:fontFamily="@font/roboto_black"
+                android:hint="@string/pais"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etDireccion" />
+
+            <EditText
+                android:id="@+id/etTelefono"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -150,23 +170,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvEstadoCivil" />
 
-            <EditText
-                android:id="@+id/etPais"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:ems="10"
-                android:fontFamily="@font/roboto_black"
-                android:hint="@string/pais"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etDireccion" />
-
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabGuardarNueboUsuario"
+                android:id="@+id/fabGuardarNuevoUsuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -201,10 +206,10 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+                app:layout_constraintTop_toBottomOf="@+id/etTelefono" />
 
             <CheckBox
-                android:id="@+id/cbTrabjador"
+                android:id="@+id/cbTrabajador"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
