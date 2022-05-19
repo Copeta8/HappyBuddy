@@ -56,6 +56,11 @@
     </string-array>
 
 
+    <string name="intro_contra_nueva">Introduce tu contraseña</string>
+    <string name="intro_contra_confirmar">Repite tu nueva contraseña</string>
+    <string name="tu_correo">Correo electronico:</string>
+    <string name="muestra_contra">Mostrar la contraseña</string>
+    <string name="contrasenya_no_coincide">Las contraseñas no coinciden</string>
 
     <string name="title_activity_main2">MainActivity2</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

@@ -2,6 +2,8 @@ package ara.tfg.happybuddy;
 
 import static android.content.ContentValues.TAG;
 
+import static ara.tfg.happybuddy.RegistroActivity.EXTRA_PASSWORD;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +42,8 @@ import ara.tfg.happybuddy.model.Profesional;
 import ara.tfg.happybuddy.model.Usuario;
 
 public class LoginActivity extends AppCompatActivity {
+
+    public final static String EXTRA_EMAIL = "ara.tfg.happubuddy.LoginActivity.EMAIL";
 
     private FirebaseAuth mAuth;
 
@@ -85,6 +89,12 @@ public class LoginActivity extends AppCompatActivity {
                     for (Usuario usuario : listaUsuarios) {
 
                         if (usuario.getEmail().equals(email) && usuario.getUID() == null) {
+                            Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
+
+                            intent.putExtra(RegistroActivity.EXTRA_EMAIL, email);
+                            intent.putExtra(RegistroActivity.EXTRA_PASSWORD, password);
+                            startActivity(intent);
+                            finish();
 
                         } else {
                             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
