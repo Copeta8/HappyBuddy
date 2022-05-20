@@ -123,14 +123,21 @@ public class LoginActivity extends AppCompatActivity {
                                         startActivity(intent);
                                         finish();
 
-                                    } else {
+                                    } else if(document.toObject(Usuario.class).getUID() != null){
                                         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                             @Override
                                             public void onComplete(@NonNull Task<AuthResult> task) {
 
                                                 if (task.isSuccessful()) {
-                                                    startActivity(new Intent(LoginActivity.this, InicioHappyBuddyActivity.class));
-                                                    finish();
+
+                                                    if (document.toObject(Usuario.class).isAdmin()) {
+                                                        startActivity(new Intent(LoginActivity.this, MainActivityProfesional.class));
+                                                        finish();
+                                                    }else{
+                                                        startActivity(new Intent(LoginActivity.this, InicioHappyBuddyActivity.class));
+                                                        finish();
+                                                    }
+
                                                 } else {
                                                     Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
                                                 }
