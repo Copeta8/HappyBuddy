@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 import ara.tfg.happybuddy.databinding.ActivityInicioHappyBuddyBinding;
+import ara.tfg.happybuddy.model.FirebaseContract;
 import ara.tfg.happybuddy.model.Usuario;
 
 public class InicioHappyBuddyActivity extends AppCompatActivity {
@@ -41,6 +42,8 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
 
     ArrayList<Usuario> usuarios;
     Usuario usuario = new Usuario();
+
+    String lastDocumetId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +87,6 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        if (userFB != null && usuario != null) {
-
-        }
-
     }
 
     public void defineMenu(Menu menu) {
@@ -105,6 +104,8 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
                         usuarios.add(document.toObject(Usuario.class));
+
+
                     }
 
                     if (esAdmin()) {

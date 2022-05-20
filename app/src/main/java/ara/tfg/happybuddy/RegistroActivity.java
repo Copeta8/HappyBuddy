@@ -22,8 +22,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import ara.tfg.happybuddy.databinding.ActivityRegistroBinding;
+import ara.tfg.happybuddy.model.Usuario;
 
 public class RegistroActivity extends AppCompatActivity {
 
@@ -31,6 +33,9 @@ public class RegistroActivity extends AppCompatActivity {
 
     public final static String EXTRA_EMAIL = "ara.tfg.happybuddy.RegistroActivity.correo";
     public final static String EXTRA_PASSWORD = "ara.tfg.happybuddy.RegistroActivity.password";
+    public final static String EXTRA_LAST_DOCUMENT_ID = "ara.tfg.happybuddy.RegistroActivity.last_document_id";
+    public final static String EXTRA_USER = "ara.tfg.happybuddy.RegistroActivity.user";
+
 
     TextView tvCorreo;
     EditText etRegPassword, etRepPassword;
@@ -38,6 +43,7 @@ public class RegistroActivity extends AppCompatActivity {
     CheckBox cbMostrarContrasenya;
 
     private FirebaseAuth mAuth;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,13 @@ public class RegistroActivity extends AppCompatActivity {
 
         String email = getIntent().getStringExtra(EXTRA_EMAIL);
         String password = getIntent().getStringExtra(EXTRA_PASSWORD);
+        String lastDocumentID = getIntent().getStringExtra(EXTRA_LAST_DOCUMENT_ID);
+
+
+        Bundle bundle = getIntent().getExtras();
+        Usuario usuario = bundle.getParcelable(EXTRA_USER);
+
+        System.out.println("Usuario: " + usuario.getNombre() + " " + usuario.getApellidos());
 
         tvCorreo.setText(getResources().getText(R.string.tu_correo) + " " + email);
         etRegPassword.setText(password);
@@ -68,6 +81,7 @@ public class RegistroActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         fabGuardarUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +100,16 @@ public class RegistroActivity extends AppCompatActivity {
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d(TAG, "createUserWithEmail:success");
                                         FirebaseUser user = mAuth.getCurrentUser();
+
+                                        usuario.setUID(user.getUid());
+
+
+                                        db = FirebaseFirestore.getInstance();
+                                        db.collection("usuarios").document(user.getUid()).set(usuario);
+                                        db.collection("usuarios").document(lastDocumentID).delete();
+
                                         startActivity(new Intent(RegistroActivity.this, InicioHappyBuddyActivity.class));
+
 
                                     } else {
                                         // If sign in fails, display a message to the user.

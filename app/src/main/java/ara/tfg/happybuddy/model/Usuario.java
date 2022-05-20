@@ -1,12 +1,16 @@
 package ara.tfg.happybuddy.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Usuario {
+public class Usuario implements Parcelable {
 
     private String UID;
     private boolean admin;
@@ -39,6 +43,32 @@ public class Usuario {
 
     public Usuario() {
     }
+
+    protected Usuario(Parcel in) {
+        UID = in.readString();
+        admin = in.readByte() != 0;
+        apellidos = in.readString();
+        direccion = in.readString();
+        email = in.readString();
+        estado_civil = in.readString();
+        fecha_nacimiento = in.readParcelable(Timestamp.class.getClassLoader());
+        genero = in.readString();
+        nombre = in.readString();
+        num_telefono = in.readString();
+        pais = in.readString();
+    }
+
+    public static final Creator<Usuario> CREATOR = new Creator<Usuario>() {
+        @Override
+        public Usuario createFromParcel(Parcel in) {
+            return new Usuario(in);
+        }
+
+        @Override
+        public Usuario[] newArray(int size) {
+            return new Usuario[size];
+        }
+    };
 
     public String getUID() {
         return UID;
@@ -138,5 +168,25 @@ public class Usuario {
         SimpleDateFormat jdf = new SimpleDateFormat("dd-MM-yyyy");
 
         return jdf.format(date);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(UID);
+        parcel.writeByte((byte) (admin ? 1 : 0));
+        parcel.writeString(apellidos);
+        parcel.writeString(direccion);
+        parcel.writeString(email);
+        parcel.writeString(estado_civil);
+        parcel.writeParcelable(fecha_nacimiento, i);
+        parcel.writeString(genero);
+        parcel.writeString(nombre);
+        parcel.writeString(num_telefono);
+        parcel.writeString(pais);
     }
 }

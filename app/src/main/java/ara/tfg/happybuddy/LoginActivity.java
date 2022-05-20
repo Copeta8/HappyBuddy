@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         btLogin = findViewById(R.id.btLogin);
         ivShowPass = findViewById(R.id.ivShowPassword);
 
-        obtenerUsuarios();
+        //obtenerUsuarios();
 
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +86,66 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (!email.isEmpty() && !password.isEmpty()) {
 
-                    for (Usuario usuario : listaUsuarios) {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                    //Se incializa la lista que contendra las conferencias
+                   // listaUsuarios = new ArrayList<Usuario>();
+
+                    //Se llama a Firestore para obtener los documentos de conferencias
+                    db.collection(FirebaseContract.UsuariosEntry.NODE_NAME).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            //Si se han cargado los documentos
+                            if (task.isSuccessful()) {
+                                //Se van añadiendo a la lista de usuarios
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    //listaUsuarios.add(document.toObject(Usuario.class));
+
+                                    //Si el UID del objeto almacenado en Firestore es nulo, entonces se crea inicia un intent
+                                    //para que el usuario pueda terminar el registro en FirebaseAuth.
+                                    if (document.toObject(Usuario.class).getEmail().equals(email) && document.toObject(Usuario.class).getUID() == null) {
+
+                                        Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
+
+                                        //Se envian los datos del email, password e id del documento que referencia los datos del
+                                        //usuario en Firestore
+                                        intent.putExtra(RegistroActivity.EXTRA_EMAIL, email);
+                                        intent.putExtra(RegistroActivity.EXTRA_PASSWORD, password);
+                                        intent.putExtra(RegistroActivity.EXTRA_LAST_DOCUMENT_ID, document.getId());
+
+                                        //Se envia el objeto usuario a la actividad de registro
+                                        Bundle bundle = new Bundle();
+                                        bundle.putParcelable(RegistroActivity.EXTRA_USER, document.toObject(Usuario.class));
+                                        intent.putExtras(bundle);
+
+                                        startActivity(intent);
+                                        finish();
+
+                                    } else {
+                                        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                                if (task.isSuccessful()) {
+                                                    startActivity(new Intent(LoginActivity.this, InicioHappyBuddyActivity.class));
+                                                    finish();
+                                                } else {
+                                                    Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+
+
+                    /*for (Usuario usuario : listaUsuarios) {
 
                         if (usuario.getEmail().equals(email) && usuario.getUID() == null) {
                             Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
@@ -110,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                         }
-                    }
+                    }*/
 
                 } else {
                     Toast.makeText(LoginActivity.this, R.string.empty_fields, Toast.LENGTH_LONG).show();
@@ -198,7 +257,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void obtenerUsuarios() {
+    /*private void obtenerUsuarios() {
         //Se crea una instancia de Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -221,5 +280,5 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-    }
+    }*/
 }
