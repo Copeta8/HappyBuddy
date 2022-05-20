@@ -40,10 +40,12 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
     FirebaseUser userFB;
 
     ArrayList<Usuario> usuarios;
+    Usuario usuario = new Usuario();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         binding = ActivityInicioHappyBuddyBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -81,6 +83,10 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_inicio_happy_buddy);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        if (userFB != null && usuario != null) {
+
+        }
 
     }
 
@@ -121,15 +127,15 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
 
         for (Usuario usuario : usuarios) {
 
-            if (usuario.getUID() != null) {
+            if (usuario.getEmail().equals(userFB.getEmail())) {
 
-                if (usuario.getUID().equals(userFB.getUid())) {
+                this.usuario = usuario;
 
-                    if (usuario.isAdmin() == true) {
-                        esAdmin = true;
-                    }
+                if (usuario.isAdmin() == true) {
+                    esAdmin = true;
                 }
             }
+
         }
         return esAdmin;
     }
