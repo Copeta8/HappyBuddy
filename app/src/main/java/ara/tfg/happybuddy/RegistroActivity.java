@@ -76,8 +76,10 @@ public class RegistroActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (!b){
                     etRegPassword.setTransformationMethod(new PasswordTransformationMethod());
+                    etRepPassword.setTransformationMethod(new PasswordTransformationMethod());
                 }else{
                     etRegPassword.setTransformationMethod(null);
+                    etRepPassword.setTransformationMethod(null);
                 }
             }
         });
@@ -108,8 +110,13 @@ public class RegistroActivity extends AppCompatActivity {
                                         db.collection("usuarios").document(user.getUid()).set(usuario);
                                         db.collection("usuarios").document(lastDocumentID).delete();
 
-                                        startActivity(new Intent(RegistroActivity.this, InicioHappyBuddyActivity.class));
+                                        if (usuario.isAdmin()){
+                                            startActivity(new Intent(RegistroActivity.this, MainProfesionalActivity.class));
+                                            System.out.println("Entro al admin-fragment por el registro-activity");
+                                        }else{
+                                            startActivity(new Intent(RegistroActivity.this, MainUsuarioActivity.class));
 
+                                        }
 
                                     } else {
                                         // If sign in fails, display a message to the user.

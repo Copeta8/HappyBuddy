@@ -5,8 +5,16 @@ import static android.content.ContentValues.TAG;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.Menu;
+import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,79 +25,64 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 
-import ara.tfg.happybuddy.databinding.ActivityInicioHappyBuddyBinding;
-import ara.tfg.happybuddy.model.FirebaseContract;
+import ara.tfg.happybuddy.databinding.ActivityMainProfesionalBinding;
 import ara.tfg.happybuddy.model.Usuario;
 
-public class InicioHappyBuddyActivity extends AppCompatActivity {
+
+public class MainProfesionalActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityInicioHappyBuddyBinding binding;
+    private ActivityMainProfesionalBinding binding;
 
     private FirebaseAuth auth;
     private FirebaseFirestore mDatabase;
     FirebaseUser userFB;
 
     ArrayList<Usuario> usuarios;
-    Usuario usuario = new Usuario();
-
-    String lastDocumetId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        binding = ActivityInicioHappyBuddyBinding.inflate(getLayoutInflater());
+        binding = ActivityMainProfesionalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        setSupportActionBar(binding.appBarMain.toolbar2);
 
         auth = FirebaseAuth.getInstance();
         userFB = auth.getCurrentUser();
 
-        setSupportActionBar(binding.appBarInicioHappyBuddy.toolbar);
-
-        DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
+        DrawerLayout drawer = binding.drawerLayoutProfesional;
+        NavigationView navigationView = binding.navViewProfesional;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-
-
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_cita, R.id.nav_slideshow)
+                R.id.nav_home_prof, R.id.nav_gallery_prof)
                 .setOpenableLayout(drawer)
                 .build();
-
-
-        /*if (esAdmin) {
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_home, R.id.nav_cita, R.id.nav_slideshow)
-                    .setOpenableLayout(drawer)
-                    .build();
-        } else {
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_home, R.id.nav_cita)
-                    .setOpenableLayout(drawer)
-                    .build();
-        }*/
-
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_inicio_happy_buddy);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_profesional);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
     }
 
-    public void defineMenu(Menu menu) {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        finishAffinity();
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        finishAffinity();
+    }
+
+    /*public void defineMenu(Menu menu) {
 
         mDatabase = FirebaseFirestore.getInstance();
 
@@ -130,7 +123,7 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
 
             if (usuario.getEmail().equals(userFB.getEmail())) {
 
-                this.usuario = usuario;
+                usuario = usuario;
 
                 if (usuario.isAdmin() == true) {
                     esAdmin = true;
@@ -139,14 +132,16 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
 
         }
         return esAdmin;
-    }
+    }*/
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.inicio_happy_buddy, menu);
-        defineMenu(menu);
+        //defineMenu(menu);
+        getMenuInflater().inflate(R.menu.inicio_happy_buddy_profesional, menu);
+
         return true;
 
     }
@@ -157,11 +152,11 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_logout:
                 auth.signOut();
-                startActivity(new Intent(InicioHappyBuddyActivity.this, LoginActivity.class));
+                startActivity(new Intent(MainProfesionalActivity.this, LoginActivity.class));
                 finish();
                 return true;
             case R.id.action_crearUsuario:
-                startActivity(new Intent(InicioHappyBuddyActivity.this, NuevoUsuarioActivity.class));
+                startActivity(new Intent(MainProfesionalActivity.this, NuevoUsuarioActivity.class));
                 finish();
                 return true;
             default:
@@ -169,10 +164,10 @@ public class InicioHappyBuddyActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_inicio_happy_buddy);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+        @Override
+        public boolean onSupportNavigateUp () {
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_profesional);
+            return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                    || super.onSupportNavigateUp();
+        }
     }
-}
