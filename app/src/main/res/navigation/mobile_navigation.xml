@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/nav_home_prof"
-        android:name="com.example.testhb.ui.home.HomeProfesionalFragment"
+        android:name="ara.tfg.happybuddy.ui.homeProfesional.HomeProfesionalFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home_profesional" />
 
     <fragment
         android:id="@+id/nav_gallery_prof"
-        android:name="com.example.testhb.ui.gallery.GalleryProfesionalFragment"
+        android:name="ara.tfg.happybuddy.ui.galleryProfesional.GalleryProfesionalFragment"
         android:label="@string/aceptar"
         tools:layout="@layout/fragment_gallery_profesional" />
 

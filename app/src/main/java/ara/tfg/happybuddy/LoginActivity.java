@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isShowPassword = false;
 
     ArrayList<Usuario> listaUsuarios;
+    ArrayList<String> usuariosDocumentID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         comprobarAutenticacion();
+        obtenerUsuarios();
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
@@ -76,7 +78,56 @@ public class LoginActivity extends AppCompatActivity {
         btLogin = findViewById(R.id.btLogin);
         ivShowPass = findViewById(R.id.ivShowPassword);
 
-        //obtenerUsuarios();
+
+        tvResetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                email = etEmail.getText().toString();
+
+                if (!email.isEmpty()) {
+                    AlertDialog.Builder dialogo = new AlertDialog.Builder(LoginActivity.this);
+                    dialogo.setTitle(R.string.aviso);
+                    //Para que muestre correctamente el texto no puedo invocarlo desde los recursos de string.xml
+
+                    String msgPart1 = getString(R.string.envio_contra);
+                    SpannableString msg = new SpannableString(msgPart1 + "\n\n" + etEmail.getText().toString());
+                    msg.setSpan(new StyleSpan(Typeface.BOLD), msgPart1.length() + 1, msgPart1.length() + etEmail.getText().toString().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    dialogo.setMessage(msg);
+
+                    dialogo.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mAuth.sendPasswordResetEmail(email)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "Email enviado.");
+                                            }
+                                        }
+                                    });
+                        }
+                    });
+                    dialogo.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    dialogo.show();
+                } else {
+                    Toast.makeText(LoginActivity.this, R.string.empty_fields, Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,101 +137,97 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (!email.isEmpty() && !password.isEmpty()) {
 
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    Usuario usuario = null;
+                    String documentID = "";
 
-                    //Se incializa la lista que contendra las conferencias
-                   // listaUsuarios = new ArrayList<Usuario>();
+                    for (int i = 0; i < listaUsuarios.size(); i++) {
 
-                    //Se llama a Firestore para obtener los documentos de conferencias
-                    db.collection(FirebaseContract.UsuariosEntry.NODE_NAME).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            //Si se han cargado los documentos
-                            if (task.isSuccessful()) {
-                                //Se van añadiendo a la lista de usuarios
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
-                                    //listaUsuarios.add(document.toObject(Usuario.class));
-
-                                    //Si el UID del objeto almacenado en Firestore es nulo, entonces se crea inicia un intent
-                                    //para que el usuario pueda terminar el registro en FirebaseAuth.
-                                    if (document.toObject(Usuario.class).getEmail().equals(email) && document.toObject(Usuario.class).getUID() == null) {
-
-                                        Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
-
-                                        //Se envian los datos del email, password e id del documento que referencia los datos del
-                                        //usuario en Firestore
-                                        intent.putExtra(RegistroActivity.EXTRA_EMAIL, email);
-                                        intent.putExtra(RegistroActivity.EXTRA_PASSWORD, password);
-                                        intent.putExtra(RegistroActivity.EXTRA_LAST_DOCUMENT_ID, document.getId());
-
-                                        //Se envia el objeto usuario a la actividad de registro
-                                        Bundle bundle = new Bundle();
-                                        bundle.putParcelable(RegistroActivity.EXTRA_USER, document.toObject(Usuario.class));
-                                        intent.putExtras(bundle);
-
-                                        startActivity(intent);
-                                        finish();
-
-                                    } else if(document.toObject(Usuario.class).getUID() != null){
-                                        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                                if (task.isSuccessful()) {
-
-                                                    if (document.toObject(Usuario.class).isAdmin()) {
-                                                        startActivity(new Intent(LoginActivity.this, MainActivityProfesional.class));
-                                                        finish();
-                                                    }else{
-                                                        startActivity(new Intent(LoginActivity.this, InicioHappyBuddyActivity.class));
-                                                        finish();
-                                                    }
-
-                                                } else {
-                                                    Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
+                        if (listaUsuarios.get(i).getEmail().equals(email)) {
+                            usuario = listaUsuarios.get(i);
+                            documentID = usuariosDocumentID.get(i);
                         }
-                    });
+                    }
+
+                    if (usuario != null && usuario.getUID() == null) {
+
+                        Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
+
+                        //Se envian los datos del email, password e id del documento que referencia los datos del
+                        //usuario en Firestore
+                        intent.putExtra(RegistroActivity.EXTRA_EMAIL, email);
+                        intent.putExtra(RegistroActivity.EXTRA_PASSWORD, password);
+                        intent.putExtra(RegistroActivity.EXTRA_LAST_DOCUMENT_ID, documentID);
+
+                        //Se envia el objeto usuario a la actividad de registro
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(RegistroActivity.EXTRA_USER, usuario);
+                        intent.putExtras(bundle);
+
+                        startActivity(intent);
+                        finish();
+
+                    } else if (usuario.getUID() != null) {
 
 
-                    /*for (Usuario usuario : listaUsuarios) {
+                        if (usuario.isAdmin()) {
 
-                        if (usuario.getEmail().equals(email) && usuario.getUID() == null) {
-                            Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
-
-                            intent.putExtra(RegistroActivity.EXTRA_EMAIL, email);
-                            intent.putExtra(RegistroActivity.EXTRA_PASSWORD, password);
-                            startActivity(intent);
-                            finish();
-
-                        } else {
                             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-
                                     if (task.isSuccessful()) {
-                                        startActivity(new Intent(LoginActivity.this, InicioHappyBuddyActivity.class));
+                                        startActivity(new Intent(LoginActivity.this, MainActivityProfesional.class));
                                         finish();
                                     } else {
                                         Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
-                        }
-                    }*/
+                        } else {
 
-                } else {
-                    Toast.makeText(LoginActivity.this, R.string.empty_fields, Toast.LENGTH_LONG).show();
+                            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                    if (task.isSuccessful()) {
+
+                                        startActivity(new Intent(LoginActivity.this, InicioHappyBuddyActivity.class));
+                                        finish();
+
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
+                                    }
+
+                                }
+                            });
+                        }
+                    }
                 }
+            }
+        });
+
+        ivShowPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isShowPassword) {
+                    etPassword.setTransformationMethod(new PasswordTransformationMethod());
+                    ivShowPass.setImageDrawable(getResources().getDrawable(R.drawable.hide));
+                    isShowPassword = false;
+                } else {
+                    etPassword.setTransformationMethod(null);
+                    ivShowPass.setImageDrawable(getResources().getDrawable(R.drawable.view));
+                    isShowPassword = true;
+                }
+            }
+        });
+
+        tvDireccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Se crea un intent encargado de abrir un mapa con la localizacion de la empresa
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://goo.gl/maps/KZ39U9V8dGjxoEmo7"));
+                //Se inicia el intent
+                startActivity(intent);
             }
         });
 
@@ -226,33 +273,8 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
-        ivShowPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isShowPassword) {
-                    etPassword.setTransformationMethod(new PasswordTransformationMethod());
-                    ivShowPass.setImageDrawable(getResources().getDrawable(R.drawable.hide));
-                    isShowPassword = false;
-                } else {
-                    etPassword.setTransformationMethod(null);
-                    ivShowPass.setImageDrawable(getResources().getDrawable(R.drawable.view));
-                    isShowPassword = true;
-                }
-            }
-        });
-
-        tvDireccion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //Se crea un intent encargado de abrir un mapa con la localizacion de la empresa
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://goo.gl/maps/KZ39U9V8dGjxoEmo7"));
-                //Se inicia el intent
-                startActivity(intent);
-            }
-        });
     }
+
 
     private void comprobarAutenticacion() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -263,6 +285,34 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(this, InicioHappyBuddyActivity.class));
         }
     }
+
+
+    public void obtenerUsuarios() {
+
+        listaUsuarios = new ArrayList<Usuario>();
+        usuariosDocumentID = new ArrayList<String>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection(FirebaseContract.UsuariosEntry.NODE_NAME).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if (task.isSuccessful()) {
+
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+
+
+                        listaUsuarios.add(document.toObject(Usuario.class));
+                        usuariosDocumentID.add(document.getId());
+                    }
+                }
+            }
+        });
+    }
+
 
     /*private void obtenerUsuarios() {
         //Se crea una instancia de Firestore
@@ -288,4 +338,205 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }*/
+
+
+    /*btLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                email = etEmail.getText().toString();
+                password = etPassword.getText().toString();
+
+                if (!email.isEmpty() && !password.isEmpty()) {
+
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                    //Se incializa la lista que contendra las conferencias
+                    // listaUsuarios = new ArrayList<Usuario>();
+
+                    //Se llama a Firestore para obtener los documentos de conferencias
+                    db.collection(FirebaseContract.UsuariosEntry.NODE_NAME).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            boolean esAdmin = false;
+
+                            //Si se han cargado los documentos
+                            if (task.isSuccessful()) {
+                                //Se van añadiendo a la lista de usuarios
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    //listaUsuarios.add(document.toObject(Usuario.class));
+
+                                    //Si el UID del objeto almacenado en Firestore es nulo, entonces se crea inicia un intent
+                                    //para que el usuario pueda terminar el registro en FirebaseAuth.
+                                    if (document.toObject(Usuario.class).getEmail().equals(email) && document.toObject(Usuario.class).getUID() == null) {
+
+                                        Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
+
+                                        //Se envian los datos del email, password e id del documento que referencia los datos del
+                                        //usuario en Firestore
+                                        intent.putExtra(RegistroActivity.EXTRA_EMAIL, email);
+                                        intent.putExtra(RegistroActivity.EXTRA_PASSWORD, password);
+                                        intent.putExtra(RegistroActivity.EXTRA_LAST_DOCUMENT_ID, document.getId());
+
+                                        //Se envia el objeto usuario a la actividad de registro
+                                        Bundle bundle = new Bundle();
+                                        bundle.putParcelable(RegistroActivity.EXTRA_USER, document.toObject(Usuario.class));
+                                        intent.putExtras(bundle);
+
+                                        startActivity(intent);
+                                        finish();
+
+                                    } else if (document.toObject(Usuario.class).getUID() != null) {
+
+                                        Usuario usuario = document.toObject(Usuario.class);
+
+                                        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                                if (task.isSuccessful()) {
+
+                                                    if (usuario.isAdmin() == true) {
+                                                        startActivity(new Intent(LoginActivity.this, MainActivityProfesional.class));
+
+                                                        finish();
+                                                    } else {
+                                                        startActivity(new Intent(LoginActivity.this, InicioHappyBuddyActivity.class));
+                                                        finish();
+                                                        break;
+                                                    }
+
+                                                } else {
+                                                    Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
+                                                }
+
+                                            }
+                                        });
+                                    }
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+
+
+
+
+
+
+                    /*for (Usuario usuario : listaUsuarios) {
+
+                        if (usuario.getEmail().equals(email) && usuario.getUID() == null) {
+                            Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
+
+                            intent.putExtra(RegistroActivity.EXTRA_EMAIL, email);
+                            intent.putExtra(RegistroActivity.EXTRA_PASSWORD, password);
+                            startActivity(intent);
+                            finish();
+
+                        } else {
+                            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                    if (task.isSuccessful()) {
+                                        startActivity(new Intent(LoginActivity.this, InicioHappyBuddyActivity.class));
+                                        finish();
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        }
+                    }*//*
+
+} else {
+        Toast.makeText(LoginActivity.this, R.string.empty_fields, Toast.LENGTH_LONG).show();
+        }
+        }
+        });
+
+
+    */
+
+
+    /* btLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                email = etEmail.getText().toString();
+                password = etPassword.getText().toString();
+
+                if (!email.isEmpty() && !password.isEmpty()) {
+
+                    Usuario usuario = null;
+                    String documentID = "";
+
+                    for (int i = 0; i < listaUsuarios.size(); i++) {
+
+                        if (listaUsuarios.get(i).getEmail().equals(email)) {
+                            usuario = listaUsuarios.get(i);
+                            documentID = usuariosDocumentID.get(i);
+                        }
+                    }
+
+                    if (usuario != null && usuario.getUID() == null) {
+
+                        Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
+
+                        //Se envian los datos del email, password e id del documento que referencia los datos del
+                        //usuario en Firestore
+                        intent.putExtra(RegistroActivity.EXTRA_EMAIL, email);
+                        intent.putExtra(RegistroActivity.EXTRA_PASSWORD, password);
+                        intent.putExtra(RegistroActivity.EXTRA_LAST_DOCUMENT_ID, documentID);
+
+                        //Se envia el objeto usuario a la actividad de registro
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(RegistroActivity.EXTRA_USER, usuario);
+                        intent.putExtras(bundle);
+
+                        startActivity(intent);
+                        finish();
+
+                    } else if (usuario.getUID() != null) {
+
+
+                        if (usuario.isAdmin()) {
+
+                            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        startActivity(new Intent(LoginActivity.this, MainActivityProfesional.class));
+                                        finish();
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        } else {
+
+                            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                    if (task.isSuccessful()) {
+
+                                        startActivity(new Intent(LoginActivity.this, InicioHappyBuddyActivity.class));
+                                        finish();
+
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
+                                    }
+
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });*/
+
+
 }

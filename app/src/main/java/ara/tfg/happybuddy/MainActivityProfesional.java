@@ -29,7 +29,7 @@ public class MainActivityProfesional extends AppCompatActivity {
         binding = ActivityMainProfesionalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //setSupportActionBar(binding.appBarMain.tool_bar);
+        setSupportActionBar(binding.appBarMain.toolbar2);
 
 
         DrawerLayout drawer = binding.drawerLayout;
@@ -48,7 +48,7 @@ public class MainActivityProfesional extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_main_drawer_profesional, menu);
+        getMenuInflater().inflate(R.menu.inicio_happy_buddy_profesional, menu);
         return true;
     }
 
