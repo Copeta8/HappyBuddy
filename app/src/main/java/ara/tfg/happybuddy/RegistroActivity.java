@@ -111,9 +111,10 @@ public class RegistroActivity extends AppCompatActivity {
                                         db.collection("usuarios").document(lastDocumentID).delete();
 
                                         if (usuario.isAdmin()){
-                                            startActivity(new Intent(RegistroActivity.this, MainActivityProfesional.class));
+                                            startActivity(new Intent(RegistroActivity.this, MainProfesionalActivity.class));
+                                            System.out.println("Entro al admin-fragment por el registro-activity");
                                         }else{
-                                            startActivity(new Intent(RegistroActivity.this, InicioHappyBuddyActivity.class));
+                                            startActivity(new Intent(RegistroActivity.this, MainUsuarioActivity.class));
 
                                         }
 

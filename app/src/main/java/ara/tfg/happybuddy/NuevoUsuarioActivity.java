@@ -46,7 +46,6 @@ public class NuevoUsuarioActivity extends AppCompatActivity {
 
         FirebaseAuth.getInstance().signOut();
 
-
         spGenero = findViewById(R.id.spGenero);
         spEstadoCivil = findViewById(R.id.spEstadoCivil);
         etNombre = findViewById(R.id.etNombre);
@@ -101,10 +100,10 @@ public class NuevoUsuarioActivity extends AppCompatActivity {
 
                     db.collection(FirebaseContract.UsuariosEntry.NODE_NAME).add(usuario);
 
+                    finish();
                 }
             }
         });
-
 
     }
 
