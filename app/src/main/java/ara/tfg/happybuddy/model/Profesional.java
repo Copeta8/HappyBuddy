@@ -3,6 +3,7 @@ package ara.tfg.happybuddy.model;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
+import java.sql.Time;
 import java.util.Date;
 
 public class Profesional {
@@ -12,12 +13,12 @@ public class Profesional {
     private String usuario_uid;
 
     @ServerTimestamp
-    private Date inicio_trabajo;
+    private Timestamp inicio_trabajo;
 
     public Profesional() {
     }
 
-    public Profesional(String nombre_completo, String master, String usuario_uid, Date inicio_trabajo) {
+    public Profesional(String nombre_completo, String master, String usuario_uid, Timestamp inicio_trabajo) {
         this.nombre_completo = nombre_completo;
         this.master = master;
         this.usuario_uid = usuario_uid;
@@ -48,11 +49,11 @@ public class Profesional {
         this.usuario_uid = usuario;
     }
 
-    public Date getInicio_trabajo() {
+    public Timestamp getInicio_trabajo() {
         return inicio_trabajo;
     }
 
-    public void setInicio_trabajo(Date inicio_trabajo) {
+    public void setInicio_trabajo(Timestamp inicio_trabajo) {
         this.inicio_trabajo = inicio_trabajo;
     }
 }

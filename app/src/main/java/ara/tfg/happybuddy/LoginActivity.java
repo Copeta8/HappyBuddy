@@ -97,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (listaUsuarios.get(i).getEmail().equals(email)) {
                             usuario = listaUsuarios.get(i);
+                            System.out.println("Usuario encontrado: " + usuario.getEmail() + usuario.getNombre());
                             documentID = usuariosDocumentID.get(i);
                         }
                     }

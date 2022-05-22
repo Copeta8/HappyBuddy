@@ -1,13 +1,17 @@
 package ara.tfg.happybuddy.ui.crear_usuario;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -19,8 +23,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Date;
 
 import ara.tfg.happybuddy.R;
+import ara.tfg.happybuddy.RegistroActivity;
 import ara.tfg.happybuddy.databinding.FragmentCrearUsuarioBinding;
 import ara.tfg.happybuddy.model.FirebaseContract;
+import ara.tfg.happybuddy.model.Profesional;
 import ara.tfg.happybuddy.model.Usuario;
 
 public class CrearUsuarioFragment extends Fragment {
@@ -32,6 +38,7 @@ public class CrearUsuarioFragment extends Fragment {
     String userUID, nombre, apellidos, email, direccion, telefono, pais, genero, estadoCivil;
     boolean esAdmin;
 
+    String master;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -103,7 +110,7 @@ public class CrearUsuarioFragment extends Fragment {
         binding = null;
     }
 
-    public void borrarCampos(){
+    public void borrarCampos() {
         binding.etNombre.setText("");
         binding.etApellidos.setText("");
         binding.etNuevoEmail.setText("");

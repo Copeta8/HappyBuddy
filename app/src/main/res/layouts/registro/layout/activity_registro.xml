@@ -11,7 +11,7 @@
       android:id="@+id/imageView2"
       android:layout_width="75dp"
       android:layout_height="75dp"
-      android:layout_marginStart="16dp"
+      android:layout_marginStart="8dp"
       android:layout_marginTop="16dp"
       android:src="@drawable/h_1"
       app:layout_constraintStart_toStartOf="parent"
@@ -19,14 +19,16 @@
 
   <TextView
       android:id="@+id/textView2"
-      android:layout_width="wrap_content"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:layout_marginTop="40dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="16dp"
+      android:layout_marginEnd="8dp"
       android:fontFamily="@font/roboto_black"
-      android:text="Finaliza el registro"
+      android:text="Finaliza el registro del usuario"
       android:textSize="24sp"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.502"
+      app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintStart_toEndOf="@+id/imageView2"
       app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,14 +36,14 @@
       android:id="@+id/tvCorreo"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="36dp"
+      android:layout_marginTop="16dp"
       android:fontFamily="@font/roboto_black"
       android:text="xd"
-      android:textSize="14sp"
-      app:layout_constraintEnd_toEndOf="@+id/tvNavHCorreoProf"
-      app:layout_constraintHorizontal_bias="0.0"
-      app:layout_constraintStart_toStartOf="@+id/tvNavHCorreoProf"
-      app:layout_constraintTop_toBottomOf="@+id/tvNavHCorreoProf" />
+      android:textSize="20sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.02"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
   <EditText
       android:id="@+id/etRegistroPassword"
@@ -68,18 +70,6 @@
       app:layout_constraintStart_toStartOf="@+id/etRegistroPassword"
       app:layout_constraintTop_toBottomOf="@+id/etRegistroPassword" />
 
-  <TextView
-      android:id="@+id/tvNavHCorreoProf"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="32dp"
-      android:text="@string/tu_correo"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.0"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
   <CheckBox
       android:id="@+id/cbMostrarContrasenya"
       android:layout_width="wrap_content"
@@ -103,5 +93,21 @@
       android:src="@android:drawable/ic_menu_save"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent" />
+
+  <EditText
+      android:id="@+id/etMaster"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="24dp"
+      android:ems="10"
+      android:hint="Máster"
+      android:inputType="textPersonName"
+      android:visibility="invisible"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="@+id/cbMostrarContrasenya"
+      app:layout_constraintTop_toBottomOf="@+id/cbMostrarContrasenya"
+      app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
