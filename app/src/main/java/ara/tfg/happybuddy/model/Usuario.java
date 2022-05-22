@@ -1,5 +1,7 @@
 package ara.tfg.happybuddy.model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -168,6 +170,24 @@ public class Usuario implements Parcelable {
         SimpleDateFormat jdf = new SimpleDateFormat("dd-MM-yyyy");
 
         return jdf.format(date);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "UID='" + UID + '\'' +
+                ", admin=" + admin +
+                ", apellidos='" + apellidos + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", email='" + email + '\'' +
+                ", estado_civil='" + estado_civil + '\'' +
+                ", fecha_nacimiento=" + fecha_nacimiento +
+                ", genero='" + genero + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", num_telefono='" + num_telefono + '\'' +
+                ", pais='" + pais + '\'' +
+                '}';
     }
 
     @Override

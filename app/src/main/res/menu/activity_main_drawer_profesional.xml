@@ -9,7 +9,8 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_gallery_prof"
-            android:icon="@drawable/ic_menu_gallery" />
+            android:id="@+id/nav_crear_usuario"
+            android:icon="@drawable/fui_ic_anonymous_white_24dp"
+            android:title="Crear usuario" />
     </group>
 </menu>

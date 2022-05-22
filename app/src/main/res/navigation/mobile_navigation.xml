@@ -12,9 +12,9 @@
         tools:layout="@layout/fragment_home_profesional" />
 
     <fragment
-        android:id="@+id/nav_gallery_prof"
-        android:name="ara.tfg.happybuddy.ui.galleryProfesional.GalleryProfesionalFragment"
+        android:id="@+id/nav_crear_usuario"
+        android:name="ara.tfg.happybuddy.ui.crear_usuario.CrearUsuarioFragment"
         android:label="@string/aceptar"
-        tools:layout="@layout/fragment_gallery_profesional" />
+        tools:layout="@layout/fragment_crear_usuario" />
 
 </navigation>

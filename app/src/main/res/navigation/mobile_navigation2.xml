@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="ara.tfg.happybuddy.ui.home.HomeFragment"
+        android:name="ara.tfg.happybuddy.ui.homeUsuario.HomeUsuarioFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home_usuario" />
 
     <fragment
         android:id="@+id/nav_cita"
-        android:name="ara.tfg.happybuddy.ui.citas.CitasFragment"
+        android:name="ara.tfg.happybuddy.ui.nueva_cita.NuevasCitasFragment"
         android:label="@string/menu_citas"
-        tools:layout="@layout/fragment_citas" />
+        tools:layout="@layout/fragment_nueva_cita" />
 
     <fragment
         android:id="@+id/nav_slideshow"

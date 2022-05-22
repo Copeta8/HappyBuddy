@@ -2,7 +2,9 @@ package ara.tfg.happybuddy;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -55,36 +57,21 @@ public class MainUsuarioActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         userFB = auth.getCurrentUser();
 
-        setSupportActionBar(binding.appBarInicioHappyBuddy.toolbar);
+        setSupportActionBar(binding.appBarInicioUsuario.toolbarUsuario);
 
         DrawerLayout drawer = binding.drawerLayoutUsuario;
         NavigationView navigationView = binding.navViewUsuario;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_cita, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
 
-
-        /*if (esAdmin) {
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_home, R.id.nav_cita, R.id.nav_slideshow)
-                    .setOpenableLayout(drawer)
-                    .build();
-        } else {
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_home, R.id.nav_cita)
-                    .setOpenableLayout(drawer)
-                    .build();
-        }*/
-
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_inicio_happy_buddy);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_usuario);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
 
     }
 
@@ -104,7 +91,7 @@ public class MainUsuarioActivity extends AppCompatActivity {
     }
 
 
-    public void defineMenu(Menu menu) {
+    /*public void defineMenu(Menu menu) {
 
         mDatabase = FirebaseFirestore.getInstance();
 
@@ -124,7 +111,7 @@ public class MainUsuarioActivity extends AppCompatActivity {
                     }
 
                     if (esAdmin()) {
-                        getMenuInflater().inflate(R.menu.inicio_happy_buddy_profesional, menu);
+                        getMenuInflater().inflate(R.menu.inicio_main, menu);
                     } else {
                         getMenuInflater().inflate(R.menu.inicio_happy_buddy, menu);
                     }
@@ -154,14 +141,14 @@ public class MainUsuarioActivity extends AppCompatActivity {
 
         }
         return esAdmin;
-    }
+    }*/
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.inicio_happy_buddy, menu);
-        defineMenu(menu);
+        getMenuInflater().inflate(R.menu.inicio_main, menu);
+        //defineMenu(menu);
         return true;
 
     }
@@ -175,10 +162,6 @@ public class MainUsuarioActivity extends AppCompatActivity {
                 startActivity(new Intent(MainUsuarioActivity.this, LoginActivity.class));
                 finish();
                 return true;
-            case R.id.action_crearUsuario:
-                startActivity(new Intent(MainUsuarioActivity.this, NuevoUsuarioActivity.class));
-                finish();
-                return true;
             default:
                 return true;
         }
@@ -186,7 +169,7 @@ public class MainUsuarioActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_inicio_happy_buddy);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_usuario);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }

@@ -1,9 +1,8 @@
-package ara.tfg.happybuddy.ui.citas;
+package ara.tfg.happybuddy.ui.nueva_cita;
 
 import static android.content.ContentValues.TAG;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -28,23 +27,21 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import ara.tfg.happybuddy.R;
-import ara.tfg.happybuddy.databinding.FragmentCitasBinding;
+import ara.tfg.happybuddy.databinding.FragmentNuevaCitaBinding;
 import ara.tfg.happybuddy.model.Citas;
 import ara.tfg.happybuddy.model.FirebaseContract;
 import ara.tfg.happybuddy.model.Profesional;
 
-public class CitasFragment extends Fragment {
+public class NuevasCitasFragment extends Fragment {
 
-    private FragmentCitasBinding binding;
+    private FragmentNuevaCitaBinding binding;
     int hour, minute;
 
     private FirebaseAuth auth;
@@ -59,10 +56,10 @@ public class CitasFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        CitasViewModel citasViewModel =
-                new ViewModelProvider(this).get(CitasViewModel.class);
+        NuevasCitasViewModel nuevasCitasViewModel =
+                new ViewModelProvider(this).get(NuevasCitasViewModel.class);
 
-        binding = FragmentCitasBinding.inflate(inflater, container, false);
+        binding = FragmentNuevaCitaBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         auth = FirebaseAuth.getInstance();

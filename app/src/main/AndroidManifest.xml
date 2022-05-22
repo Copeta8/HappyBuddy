@@ -15,9 +15,6 @@
             android:name=".RegistroActivity"
             android:exported="false" />
         <activity
-            android:name=".NuevoUsuarioActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainUsuarioActivity"
             android:exported="false"
             android:label="@string/title_activity_inicio_happy_buddy"
