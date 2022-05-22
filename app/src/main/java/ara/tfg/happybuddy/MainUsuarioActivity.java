@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -31,6 +34,8 @@ import java.util.ArrayList;
 
 import ara.tfg.happybuddy.databinding.ActivityMainUsuarioBinding;
 import ara.tfg.happybuddy.model.Usuario;
+import ara.tfg.happybuddy.ui.homeProfesional.HomeViewModel;
+import ara.tfg.happybuddy.ui.homeUsuario.HomeUsuarioViewModel;
 
 public class MainUsuarioActivity extends AppCompatActivity {
 
@@ -41,21 +46,24 @@ public class MainUsuarioActivity extends AppCompatActivity {
     private FirebaseFirestore mDatabase;
     FirebaseUser userFB;
 
-    ArrayList<Usuario> usuarios;
-    Usuario usuario = new Usuario();
+    Usuario usuario;
+    TextView tvNombre, tvEmail;
 
     String lastDocumetId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        HomeUsuarioViewModel homeViewModel =
+                new ViewModelProvider(this).get(HomeUsuarioViewModel.class);
 
         binding = ActivityMainUsuarioBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         auth = FirebaseAuth.getInstance();
         userFB = auth.getCurrentUser();
+
+        usuario = homeViewModel.getUsuario();
 
         setSupportActionBar(binding.appBarInicioUsuario.toolbarUsuario);
 
@@ -71,84 +79,40 @@ public class MainUsuarioActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        NavigationView navView = (NavigationView) findViewById(R.id.nav_view_usuario);
+        View headerView = navView.getHeaderView(0);
+        tvNombre = (TextView) headerView.findViewById(R.id.tvNavHNombreUser);
+        tvEmail = (TextView) headerView.findViewById(R.id.tvNavHCorreoUser);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (tvEmail != null && tvNombre != null) {
+            tvEmail.setText(usuario.getEmail());
+            tvNombre.setText(usuario.getNombre());
+        }
 
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         finishAffinity();
     }
-
 
     @Override
     protected void onStop() {
         super.onStop();
-
         finishAffinity();
     }
-
-
-    /*public void defineMenu(Menu menu) {
-
-        mDatabase = FirebaseFirestore.getInstance();
-
-        usuarios = new ArrayList<Usuario>();
-
-        mDatabase.collection("usuarios").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-                        usuarios.add(document.toObject(Usuario.class));
-
-
-                    }
-
-                    if (esAdmin()) {
-                        getMenuInflater().inflate(R.menu.inicio_main, menu);
-                    } else {
-                        getMenuInflater().inflate(R.menu.inicio_happy_buddy, menu);
-                    }
-
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-    }
-
-
-    public boolean esAdmin() {
-
-        boolean esAdmin = false;
-
-        for (Usuario usuario : usuarios) {
-
-            if (usuario.getEmail().equals(userFB.getEmail())) {
-
-                this.usuario = usuario;
-
-                if (usuario.isAdmin() == true) {
-                    esAdmin = true;
-                }
-            }
-
-        }
-        return esAdmin;
-    }*/
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.inicio_main, menu);
-        //defineMenu(menu);
         return true;
 
     }

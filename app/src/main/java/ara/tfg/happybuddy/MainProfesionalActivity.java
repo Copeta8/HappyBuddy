@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -28,6 +30,7 @@ import java.util.Date;
 
 import ara.tfg.happybuddy.databinding.ActivityMainProfesionalBinding;
 import ara.tfg.happybuddy.model.Usuario;
+import ara.tfg.happybuddy.ui.homeUsuario.HomeUsuarioViewModel;
 
 
 public class MainProfesionalActivity extends AppCompatActivity {
@@ -44,10 +47,11 @@ public class MainProfesionalActivity extends AppCompatActivity {
     TextView tvNombre, tvEmail;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        HomeUsuarioViewModel homeViewModel =
+                new ViewModelProvider(this).get(HomeUsuarioViewModel.class);
 
         binding = ActivityMainProfesionalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -56,7 +60,11 @@ public class MainProfesionalActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         userFB = auth.getCurrentUser();
-        usuario = defineUsuario();
+
+        usuario = homeViewModel.getUsuario();
+
+
+        System.out.println("usuario: " + usuario.getNombre());
 
         DrawerLayout drawer = binding.drawerLayoutProfesional;
         NavigationView navigationView = binding.navViewProfesional;
@@ -70,10 +78,10 @@ public class MainProfesionalActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
-        tvEmail = findViewById(R.id.tvNavHCorreoProf);
-        tvNombre = findViewById(R.id.tvNavHNombreProf);
-
+        NavigationView navView = (NavigationView) findViewById(R.id.nav_view_profesional);
+        View headerView = navView.getHeaderView(0);
+        tvNombre = (TextView) headerView.findViewById(R.id.tvNavHNombreProf);
+        tvEmail = (TextView) headerView.findViewById(R.id.tvNavHCorreoProf);
 
     }
 
@@ -81,12 +89,11 @@ public class MainProfesionalActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (usuario == null) {
+        if (tvNombre != null && tvEmail != null) {
 
-        }else{
-            tvNombre.setText(usuario.getNombre());
+            tvNombre.setText(usuario.getNombre() + " " + usuario.getApellidos());
+            tvEmail.setText(usuario.getEmail());
         }
-
     }
 
     @Override
@@ -120,91 +127,19 @@ public class MainProfesionalActivity extends AppCompatActivity {
         if (prefs.getString("user_admin", "false").equals("true")) {
             System.out.println(prefs.getString("user_admin", "false"));
             isAdmin = true;
-        }else{
+        } else {
             isAdmin = false;
         }
 
-        direccion = prefs.getString("user_direction","");
+        direccion = prefs.getString("user_direction", "");
         pais = prefs.getString("user_country", "");
         genero = prefs.getString("user_gender", "");
-        estado_civil= prefs.getString("user_marital_status", "");
+        estado_civil = prefs.getString("user_marital_status", "");
 
-        return new Usuario(uid,  isAdmin,  apellidos,  direccion,  email,  estado_civil, new Timestamp(new Date()),  genero,  name,  telf,  pais);
+        return new Usuario(uid, isAdmin, apellidos, direccion, email, estado_civil, new Timestamp(new Date()), genero, name, telf, pais);
 
-        /*Usuario usuario = new Usuario();
 
-        mDatabase = FirebaseFirestore.getInstance();
-
-        usuarios = new ArrayList<Usuario>();
-
-        mDatabase.collection("usuarios").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-                        usuarios.add(document.toObject(Usuario.class));
-                    }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });*/
     }
-
-    /*public void defineMenu(Menu menu) {
-
-        mDatabase = FirebaseFirestore.getInstance();
-
-        usuarios = new ArrayList<Usuario>();
-
-        mDatabase.collection("usuarios").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-                        usuarios.add(document.toObject(Usuario.class));
-
-
-                    }
-
-                    if (esAdmin()) {
-                        getMenuInflater().inflate(R.menu.inicio_happy_buddy_profesional, menu);
-                    } else {
-                        getMenuInflater().inflate(R.menu.inicio_happy_buddy, menu);
-                    }
-
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-    }
-
-
-    public boolean esAdmin() {
-
-        boolean esAdmin = false;
-
-        for (Usuario usuario : usuarios) {
-
-            if (usuario.getEmail().equals(userFB.getEmail())) {
-
-                usuario = usuario;
-
-                if (usuario.isAdmin() == true) {
-                    esAdmin = true;
-                }
-            }
-
-        }
-        return esAdmin;
-    }*/
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -226,19 +161,15 @@ public class MainProfesionalActivity extends AppCompatActivity {
                 startActivity(new Intent(MainProfesionalActivity.this, LoginActivity.class));
                 finish();
                 return true;
-           /* case R.id.action_crearUsuario:
-                startActivity(new Intent(MainProfesionalActivity.this, NuevoUsuarioActivity.class));
-                finish();
-                return true;*/
             default:
                 return true;
         }
     }
 
-        @Override
-        public boolean onSupportNavigateUp () {
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_profesional);
-            return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                    || super.onSupportNavigateUp();
-        }
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_profesional);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
     }
+}

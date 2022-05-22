@@ -12,9 +12,11 @@
     <color name="the_blue_2">#0C6980</color>
     <color name="the_blue_3">#C0F0F7</color>
     <color name="the_blue_4">#1F628E</color>
-    <color name="the_blue_5">#00A8A8</color>
+    <!--<color name="the_blue_5">#00A8A8</color>-->
     <color name="the_blue_6">#145DA0</color>
     <color name="the_blue_7">#56AEFF</color>
     <color name="the_blue_8">#051D40</color>
     <color name="the_blue_9">#B1D4E0</color>
+
+    <color name="the_green_1">#DDEFEF</color>
 </resources>
