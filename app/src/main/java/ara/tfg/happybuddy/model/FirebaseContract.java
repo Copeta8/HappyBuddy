@@ -21,8 +21,8 @@ public class FirebaseContract {
 
     public static class CitasEntry {
         public static final String NODE_NAME = "citas";
-        public static final String PACIENTE_UID = "paciente_uid";
-        public static final String PROFESIONAL_UID = "profesional_uid";
+        public static final String PACIENTE_UID = "paciente_UID";
+        public static final String PROFESIONAL_UID = "profesional_UID";
         public static final String FECHA = "fecha";
     }
 

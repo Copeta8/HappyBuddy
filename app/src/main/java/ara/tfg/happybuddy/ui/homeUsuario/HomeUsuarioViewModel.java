@@ -25,13 +25,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Date;
 
+import ara.tfg.happybuddy.model.Citas;
+import ara.tfg.happybuddy.model.FirebaseContract;
 import ara.tfg.happybuddy.model.Usuario;
 
 public class HomeUsuarioViewModel extends AndroidViewModel {
 
 
     private FirebaseFirestore mDatabase;
-    ArrayList<Usuario> usuarios;
+    MutableLiveData<String> citas;
 
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseUser user = auth.getCurrentUser();
@@ -44,9 +46,13 @@ public class HomeUsuarioViewModel extends AndroidViewModel {
         super(application);
         mText = new MutableLiveData<>();
         //mText.setValue(usuario.getNombre());
+        mDatabase = FirebaseFirestore.getInstance();
+
+        citas = new MutableLiveData<>();
 
         usuario = defineUsuario();
     }
+
 
     public Usuario getUsuario() {
         return usuario;
@@ -83,6 +89,30 @@ public class HomeUsuarioViewModel extends AndroidViewModel {
         estado_civil = prefs.getString("user_marital_status", "");
 
         return new Usuario(uid, isAdmin, apellidos, direccion, email, estado_civil, new Timestamp(new Date()), genero, name, telf, pais);
+    }
+
+    public LiveData<String> getCitas() {
+
+        mDatabase = FirebaseFirestore.getInstance();
+
+        mDatabase.collection(FirebaseContract.CitasEntry.NODE_NAME).whereArrayContains(FirebaseContract.CitasEntry.PACIENTE_UID, usuario.getUID()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        citas.setValue(document.toObject(Citas.class).fechaFormatoLocal());
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+        System.out.println(citas);
+
+        return citas;
     }
 }
 

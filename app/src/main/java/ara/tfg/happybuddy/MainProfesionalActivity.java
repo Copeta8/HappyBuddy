@@ -50,39 +50,45 @@ public class MainProfesionalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        HomeUsuarioViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeUsuarioViewModel.class);
 
-        binding = ActivityMainProfesionalBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        setSupportActionBar(binding.appBarMainProfesional.toolbarProfesional);
-
-        auth = FirebaseAuth.getInstance();
-        userFB = auth.getCurrentUser();
-
-        usuario = homeViewModel.getUsuario();
+        try {
 
 
-        System.out.println("usuario: " + usuario.getNombre());
+            HomeUsuarioViewModel homeViewModel =
+                    new ViewModelProvider(this).get(HomeUsuarioViewModel.class);
 
-        DrawerLayout drawer = binding.drawerLayoutProfesional;
-        NavigationView navigationView = binding.navViewProfesional;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home_prof, R.id.nav_crear_usuario)
-                .setOpenableLayout(drawer)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_profesional);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+            binding = ActivityMainProfesionalBinding.inflate(getLayoutInflater());
+            setContentView(binding.getRoot());
 
-        NavigationView navView = (NavigationView) findViewById(R.id.nav_view_profesional);
-        View headerView = navView.getHeaderView(0);
-        tvNombre = (TextView) headerView.findViewById(R.id.tvNavHNombreProf);
-        tvEmail = (TextView) headerView.findViewById(R.id.tvNavHCorreoProf);
+            setSupportActionBar(binding.appBarMainProfesional.toolbarProfesional);
 
+            auth = FirebaseAuth.getInstance();
+            userFB = auth.getCurrentUser();
+
+            usuario = homeViewModel.getUsuario();
+
+
+            System.out.println("usuario: " + usuario.getNombre());
+
+            DrawerLayout drawer = binding.drawerLayoutProfesional;
+            NavigationView navigationView = binding.navViewProfesional;
+            // Passing each menu ID as a set of Ids because each
+            // menu should be considered as top level destinations.
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_home_prof, R.id.nav_crear_usuario)
+                    .setOpenableLayout(drawer)
+                    .build();
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_profesional);
+            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+            NavigationUI.setupWithNavController(navigationView, navController);
+
+            NavigationView navView = (NavigationView) findViewById(R.id.nav_view_profesional);
+            View headerView = navView.getHeaderView(0);
+            tvNombre = (TextView) headerView.findViewById(R.id.tvNavHNombreProf);
+            tvEmail = (TextView) headerView.findViewById(R.id.tvNavHCorreoProf);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

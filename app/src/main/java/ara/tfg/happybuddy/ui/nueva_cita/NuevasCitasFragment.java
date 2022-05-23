@@ -166,8 +166,9 @@ public class NuevasCitasFragment extends Fragment {
                     //Se obtiene una instancia de Firestore
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                    db.collection(FirebaseContract.CitasEntry.NODE_NAME)
-                            .add(cita);
+                    db.collection(FirebaseContract.ProfesionalEntry.NODE_NAME).document(profesionalElegido.getusuario_uid())
+                            .collection(FirebaseContract.CitasEntry.NODE_NAME).add(cita);
+                            //.add(cita);
 
                     /*db.collection(FirebaseContract.ProfesionalEntry.NODE_NAME)//documento conferencia actual
                     .document(profesionalElegido.getusuario_uid()) //subcolección de la conferencia

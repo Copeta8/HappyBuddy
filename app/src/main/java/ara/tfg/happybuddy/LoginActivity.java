@@ -240,7 +240,7 @@ public class LoginActivity extends AppCompatActivity {
     private void comprobarAutenticacion() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        boolean isAdmin =  isAdmin();
+        boolean isAdmin = isAdmin();
 
         System.out.println("isAdmin: " + isAdmin);
 
@@ -260,7 +260,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public boolean isAdmin(){
+    public boolean isAdmin() {
 
         SharedPreferences prefs = getSharedPreferences(SharedPreferences_user, Context.MODE_PRIVATE);
 
@@ -270,9 +270,9 @@ public class LoginActivity extends AppCompatActivity {
 
         System.out.println(es);
 
-        if (es.equals("true")){
+        if (es.equals("true")) {
             esAdmin = true;
-        }else{
+        } else {
             esAdmin = false;
         }
 
@@ -315,9 +315,9 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString("user_telf", user.getNum_telefono());
         editor.putString("user_uid", user.getUID());
 
-        if (user.isAdmin()){
+        if (user.isAdmin()) {
             editor.putString("user_admin", "true");
-        }else{
+        } else {
             editor.putString("user_admin", "false");
         }
 

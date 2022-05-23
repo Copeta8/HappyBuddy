@@ -48,10 +48,11 @@ public class Citas {
     }
 
     public String fechaFormatoLocal() {
+
         long unix_seconds = fecha.getSeconds();
 
         //convert seconds to milliseconds
-        Date date = new Date(unix_seconds * 1000L);
+        Date date = new Date(unix_seconds * 1000);
 
         // format of the date
         SimpleDateFormat jdf = new SimpleDateFormat("dd-MM-yyyy");
