@@ -1,6 +1,5 @@
 package ara.tfg.happybuddy;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,12 +24,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import ara.tfg.happybuddy.databinding.ActivityMainProfesionalBinding;
 import ara.tfg.happybuddy.model.Usuario;
-import ara.tfg.happybuddy.ui.homeUsuario.HomeUsuarioViewModel;
+import ara.tfg.happybuddy.ui.home_usuario.HomeUsuarioViewModel;
 
 
 public class MainProfesionalActivity extends AppCompatActivity {

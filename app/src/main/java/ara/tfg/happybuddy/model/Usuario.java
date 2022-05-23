@@ -1,14 +1,11 @@
 package ara.tfg.happybuddy.model;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

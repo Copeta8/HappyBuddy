@@ -1,25 +1,16 @@
 package ara.tfg.happybuddy;
 
-import static android.content.ContentValues.TAG;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -30,12 +21,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-
 import ara.tfg.happybuddy.databinding.ActivityMainUsuarioBinding;
 import ara.tfg.happybuddy.model.Usuario;
-import ara.tfg.happybuddy.ui.homeProfesional.HomeViewModel;
-import ara.tfg.happybuddy.ui.homeUsuario.HomeUsuarioViewModel;
+import ara.tfg.happybuddy.ui.home_usuario.HomeUsuarioViewModel;
 
 public class MainUsuarioActivity extends AppCompatActivity {
 

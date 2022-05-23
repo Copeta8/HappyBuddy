@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="ara.tfg.happybuddy.ui.homeUsuario.HomeUsuarioFragment"
+        android:name="ara.tfg.happybuddy.ui.home_usuario.HomeUsuarioFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home_usuario" />
 
@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="ara.tfg.happybuddy.ui.slideshow.SlideshowFragment"
+        android:name="ara.tfg.happybuddy.ui.ver_citas.VerCitasFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_ver_citas_user" />
 </navigation>

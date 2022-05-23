@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/the_green_1"
-    tools:context=".ui.homeUsuario.HomeUsuarioFragment">
+    tools:context=".ui.home_usuario.HomeUsuarioFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvImagenUser"
@@ -26,6 +26,10 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/pexels_nandhu_kumar_312839"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/pexels_nandhu_kumar_312839_2" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -1,14 +1,14 @@
-package ara.tfg.happybuddy.ui.slideshow;
+package ara.tfg.happybuddy.ui.ver_citas;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
+public class VerCitasModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public SlideshowViewModel() {
+    public VerCitasModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is slideshow fragment");
     }

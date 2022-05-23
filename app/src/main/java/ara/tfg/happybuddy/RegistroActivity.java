@@ -3,16 +3,12 @@ package ara.tfg.happybuddy;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -31,14 +27,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 
-import ara.tfg.happybuddy.databinding.ActivityRegistroBinding;
 import ara.tfg.happybuddy.model.FirebaseContract;
 import ara.tfg.happybuddy.model.Profesional;
 import ara.tfg.happybuddy.model.Usuario;
 
 public class RegistroActivity extends AppCompatActivity {
 
-    ActivityRegistroBinding binding;
 
     public final static String EXTRA_EMAIL = "ara.tfg.happybuddy.RegistroActivity.correo";
     public final static String EXTRA_PASSWORD = "ara.tfg.happybuddy.RegistroActivity.password";

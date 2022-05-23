@@ -55,7 +55,7 @@ public class Citas {
         Date date = new Date(unix_seconds * 1000);
 
         // format of the date
-        SimpleDateFormat jdf = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat jdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
         return jdf.format(date);
     }

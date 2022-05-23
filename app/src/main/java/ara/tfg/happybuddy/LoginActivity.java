@@ -13,7 +13,6 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.PasswordTransformationMethod;

@@ -1,4 +1,4 @@
-package ara.tfg.happybuddy.ui.slideshow;
+package ara.tfg.happybuddy.ui.ver_citas;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import ara.tfg.happybuddy.databinding.FragmentSlideshowBinding;
+import ara.tfg.happybuddy.databinding.FragmentVerCitasUserBinding;
 
-public class SlideshowFragment extends Fragment {
+public class VerCitasFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding;
+    private FragmentVerCitasUserBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+        VerCitasModel verCitasModel =
+                new ViewModelProvider(this).get(VerCitasModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentVerCitasUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textSlideshow;
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        verCitasModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

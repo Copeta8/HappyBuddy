@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.homeProfesional.HomeProfesionalFragment">
+    tools:context=".ui.home_profesional.HomeProfesionalFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvImagenProf"
@@ -80,21 +80,15 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCitasProf"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvFraseDiaProf">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCitasProf"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:listitem="@layout/citas_item" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/cvFraseDiaProf"
+        tools:listitem="@layout/citas_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

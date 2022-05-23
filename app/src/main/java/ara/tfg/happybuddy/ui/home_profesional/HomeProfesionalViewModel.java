@@ -1,4 +1,4 @@
-package ara.tfg.happybuddy.ui.homeProfesional;
+package ara.tfg.happybuddy.ui.home_profesional;
 
 import android.app.Application;
 
@@ -6,10 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -17,12 +15,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ara.tfg.happybuddy.model.Citas;
 import ara.tfg.happybuddy.model.FirebaseContract;
 
-public class HomeViewModel extends AndroidViewModel {
+public class HomeProfesionalViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> mText;
 
@@ -30,7 +27,7 @@ public class HomeViewModel extends AndroidViewModel {
 
     FirebaseAuth mAuth;
 
-    public HomeViewModel(@NonNull Application application) {
+    public HomeProfesionalViewModel(@NonNull Application application) {
         super(application);
 
         listaCitasLive = new MutableLiveData<>(new ArrayList<Citas>());
