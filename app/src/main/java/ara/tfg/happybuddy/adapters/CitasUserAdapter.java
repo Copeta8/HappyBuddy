@@ -1,10 +1,12 @@
 package ara.tfg.happybuddy.adapters;
 
+import android.content.pm.FeatureGroupInfo;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +22,6 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
 import java.util.Date;
 
 import ara.tfg.happybuddy.R;
@@ -28,7 +29,7 @@ import ara.tfg.happybuddy.model.Citas;
 import ara.tfg.happybuddy.model.FirebaseContract;
 import ara.tfg.happybuddy.model.Usuario;
 
-public class CitasAdapter extends FirestoreRecyclerAdapter<Citas, CitasAdapter.CitasHolder> {
+public class CitasUserAdapter extends FirestoreRecyclerAdapter<Citas, CitasUserAdapter.CitasHolder> {
 
 
     /**
@@ -37,18 +38,19 @@ public class CitasAdapter extends FirestoreRecyclerAdapter<Citas, CitasAdapter.C
      *
      * @param options
      */
-    public CitasAdapter(@NonNull FirestoreRecyclerOptions<Citas> options) {
+    public CitasUserAdapter(@NonNull FirestoreRecyclerOptions<Citas> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull CitasAdapter.CitasHolder holder, int position, @NonNull Citas model) {
+    protected void onBindViewHolder(@NonNull CitasUserAdapter.CitasHolder holder, int position, @NonNull Citas model) {
         //holder.tvNombre.setText(model.getPaciente_UID());
         //System.out.println("Esta es la fecha: " + model.getFecha());
+        String fecha = "";
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection(FirebaseContract.UsuariosEntry.NODE_NAME).document(model.getPaciente_UID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection(FirebaseContract.UsuariosEntry.NODE_NAME).document(model.getProfesional_UID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -62,21 +64,26 @@ public class CitasAdapter extends FirestoreRecyclerAdapter<Citas, CitasAdapter.C
             }
         });
 
-        System.out.println("Esta es la fecha de la cita: " + model.getFecha().getNanoseconds());
+        System.out.println("Esta es la fecha de la cita: " + model.getFecha() + model.getPaciente_UID() + model.getProfesional_UID());
         System.out.println("Esta es la fecha actual: " + new Timestamp(new Date()).getNanoseconds());
 
+        fecha = model.fechaFormatoLocal();
+
+
         if (model.getFecha().getSeconds() < new Timestamp(new Date()).getSeconds()) {
-            holder.cvFechas.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFDC7C7")));
+            holder.cvCita.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFDC7C7")));
+            holder.ivCitaDone.setVisibility(View.VISIBLE);
         }else{
-            holder.clCita.setBackgroundColor(Color.parseColor("#E0F2F1"));
+            holder.cvCita.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E0F2F1")));
         }
+
         holder.tvFechaCita.setText(model.fechaFormatoLocal());
 
     }
 
     @NonNull
     @Override
-    public CitasAdapter.CitasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CitasUserAdapter.CitasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.citas_item, parent, false);
         return new CitasHolder(itemView);
     }
@@ -86,17 +93,17 @@ public class CitasAdapter extends FirestoreRecyclerAdapter<Citas, CitasAdapter.C
 
         TextView tvNombre;
         TextView tvFechaCita;
-        CardView cvFechas;
-        ConstraintLayout clCita;
+        CardView cvCita;
+        ImageView ivCitaDone;
+
 
         public CitasHolder(@NonNull View itemView) {
             super(itemView);
 
             tvNombre = itemView.findViewById(R.id.tvNombreProfesionalUsuario);
             tvFechaCita = itemView.findViewById(R.id.tvFechaCita);
-            cvFechas = itemView.findViewById(R.id.cvCita);
-            clCita = itemView.findViewById(R.id.constrainLayout);
-
+            cvCita = itemView.findViewById(R.id.cvCita);
+            ivCitaDone = itemView.findViewById(R.id.ivCitaDone);
         }
     }
 }

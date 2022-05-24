@@ -49,7 +49,7 @@ public class HomeUsuarioFragment extends Fragment {
         View root = binding.getRoot();
 
         //final TextView textView = binding.tvProximaCita;
-        final TextView tvProximaCita = binding.tvProximaCita;
+        final TextView tvProximaCita = binding.tvProximasCitas;
         //homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         //nombre = usuario.getNombre();
         //textView.setText(nombre);

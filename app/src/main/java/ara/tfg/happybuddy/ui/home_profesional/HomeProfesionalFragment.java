@@ -22,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 
 
-import ara.tfg.happybuddy.adapters.CitasAdapter;
+import ara.tfg.happybuddy.adapters.CitasProfAdapter;
 import ara.tfg.happybuddy.databinding.FragmentHomeProfesionalBinding;
 import ara.tfg.happybuddy.model.Citas;
 import ara.tfg.happybuddy.model.FirebaseContract;
@@ -33,7 +33,7 @@ public class HomeProfesionalFragment extends Fragment {
     private FragmentHomeProfesionalBinding binding;
     RecyclerView rvCitasProf;
 
-    CitasAdapter citasAdapter;
+    CitasProfAdapter citasProfAdapter;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
 
@@ -60,20 +60,20 @@ public class HomeProfesionalFragment extends Fragment {
 
         Query query = FirebaseFirestore.getInstance()
                         .collection(FirebaseContract.ProfesionalEntry.NODE_NAME)
-                                .document(profesional_uid).collection(FirebaseContract.CitasEntry.NODE_NAME).orderBy(FirebaseContract.CitasEntry.FECHA, Query.Direction.ASCENDING);
+                                .document(profesional_uid).collection(FirebaseContract.CitasEntry.NODE_NAME).orderBy(FirebaseContract.CitasEntry.FECHA, Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<Citas> options = new FirestoreRecyclerOptions.Builder<Citas>()
                 .setQuery(query, Citas.class).setLifecycleOwner(this).build();
 
-        if (citasAdapter != null) {
-            citasAdapter.stopListening();
+        if (citasProfAdapter != null) {
+            citasProfAdapter.stopListening();
         }
 
-        citasAdapter = new CitasAdapter(options);
-        binding.rvCitasProf.setAdapter(citasAdapter);
-        citasAdapter.startListening();
+        citasProfAdapter = new CitasProfAdapter(options);
+        binding.rvCitasProf.setAdapter(citasProfAdapter);
+        citasProfAdapter.startListening();
 
-        citasAdapter.getSnapshots().addChangeEventListener(new ChangeEventListener() {
+        citasProfAdapter.getSnapshots().addChangeEventListener(new ChangeEventListener() {
             @Override
             public void onChildChanged(@NonNull ChangeEventType type, @NonNull DocumentSnapshot snapshot, int newIndex, int oldIndex) {
                 binding.rvCitasProf.smoothScrollToPosition(0);

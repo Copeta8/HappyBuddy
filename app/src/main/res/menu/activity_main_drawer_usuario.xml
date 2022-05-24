@@ -10,11 +10,11 @@
             android:title="@string/inicio" />
         <item
             android:id="@+id/nav_cita"
-            android:icon="@drawable/ic_calendar"
+            android:icon="@drawable/ic_edit_calendar_fill1_wght400_grad0_opsz48"
             android:title="@string/solicitar_cita" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:icon="@drawable/ic_calendar_month_fill1_wght400_grad0_opsz48"
+            android:title="Ver citas" />
     </group>
 </menu>
