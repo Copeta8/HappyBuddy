@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
+            app:popupTheme="@style/Theme.HappyBuddy.PopupOverlay" />
+        <!-- android:theme="?attr/actionBarTheme"-->
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_main_profesional" />

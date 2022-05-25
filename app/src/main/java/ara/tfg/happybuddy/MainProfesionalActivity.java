@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
@@ -49,44 +50,53 @@ public class MainProfesionalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
+        HomeUsuarioViewModel homeViewModel =
+                new ViewModelProvider(this).get(HomeUsuarioViewModel.class);
+
+        binding = ActivityMainProfesionalBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        setSupportActionBar(binding.appBarMainProfesional.toolbarProfesional);
+
+        auth = FirebaseAuth.getInstance();
+        userFB = auth.getCurrentUser();
+
+        usuario = homeViewModel.getUsuario();
 
 
-            HomeUsuarioViewModel homeViewModel =
-                    new ViewModelProvider(this).get(HomeUsuarioViewModel.class);
+        System.out.println("usuario: " + usuario.getNombre());
 
-            binding = ActivityMainProfesionalBinding.inflate(getLayoutInflater());
-            setContentView(binding.getRoot());
+        DrawerLayout drawer = binding.drawerLayoutProfesional;
+        NavigationView navigationView = binding.navViewProfesional;
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home_prof, R.id.nav_crear_usuario)
+                .setOpenableLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_profesional);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
 
-            setSupportActionBar(binding.appBarMainProfesional.toolbarProfesional);
+        NavigationView navView = (NavigationView) findViewById(R.id.nav_view_profesional);
+        View headerView = navView.getHeaderView(0);
+        tvNombre = (TextView) headerView.findViewById(R.id.tvNavHNombreProf);
+        tvEmail = (TextView) headerView.findViewById(R.id.tvNavHCorreoProf);
 
-            auth = FirebaseAuth.getInstance();
-            userFB = auth.getCurrentUser();
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayoutProfesional, binding.appBarMainProfesional.toolbarProfesional, R.string.app_name, R.string.app_name) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
 
-            usuario = homeViewModel.getUsuario();
+            }
 
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
 
-            System.out.println("usuario: " + usuario.getNombre());
-
-            DrawerLayout drawer = binding.drawerLayoutProfesional;
-            NavigationView navigationView = binding.navViewProfesional;
-            // Passing each menu ID as a set of Ids because each
-            // menu should be considered as top level destinations.
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_home_prof, R.id.nav_crear_usuario)
-                    .setOpenableLayout(drawer)
-                    .build();
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_profesional);
-            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-            NavigationUI.setupWithNavController(navigationView, navController);
-
-            NavigationView navView = (NavigationView) findViewById(R.id.nav_view_profesional);
-            View headerView = navView.getHeaderView(0);
-            tvNombre = (TextView) headerView.findViewById(R.id.tvNavHNombreProf);
-            tvEmail = (TextView) headerView.findViewById(R.id.tvNavHCorreoProf);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        binding.drawerLayoutProfesional.addDrawerListener(actionBarDrawerToggle);
     }
 
     @Override
@@ -168,6 +178,7 @@ public class MainProfesionalActivity extends AppCompatActivity {
             default:
                 return true;
         }
+
     }
 
     @Override

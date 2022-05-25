@@ -45,8 +45,6 @@ public class CrearUsuarioFragment extends Fragment {
         //final TextView textView = binding.textGallery;
         //crearUsuarioViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        FirebaseAuth.getInstance().signOut();
-
         ArrayAdapter adapterGenero = ArrayAdapter.createFromResource(getContext(), R.array.generos, android.R.layout.simple_spinner_item);
         adapterGenero.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spGenero.setAdapter(adapterGenero);

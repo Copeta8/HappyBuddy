@@ -34,7 +34,7 @@ public class HomeProfesionalViewModel extends AndroidViewModel {
 
         mAuth = FirebaseAuth.getInstance();
 
-        listaCitasLive.setValue(setListCitas());
+       // listaCitasLive.setValue(setListCitas());
 
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");

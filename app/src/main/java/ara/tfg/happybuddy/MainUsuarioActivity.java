@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -72,6 +73,21 @@ public class MainUsuarioActivity extends AppCompatActivity {
         tvNombre = (TextView) headerView.findViewById(R.id.tvNavHNombreUser);
         tvEmail = (TextView) headerView.findViewById(R.id.tvNavHCorreoUser);
 
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayoutUsuario, binding.appBarInicioUsuario.toolbarUsuario, R.string.app_name, R.string.app_name) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+
+        binding.drawerLayoutUsuario.addDrawerListener(actionBarDrawerToggle);
+        
     }
 
     @Override

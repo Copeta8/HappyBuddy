@@ -1,5 +1,6 @@
 package ara.tfg.happybuddy.ui.home_profesional;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,14 +54,25 @@ public class HomeProfesionalFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
 
-        profesional_uid = mAuth.getCurrentUser().getUid();
+        //profesional_uid = mAuth.getUid();
 
         binding.rvCitasProf.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         Query query = FirebaseFirestore.getInstance()
-                        .collection(FirebaseContract.ProfesionalEntry.NODE_NAME)
-                                .document(profesional_uid).collection(FirebaseContract.CitasEntry.NODE_NAME).orderBy(FirebaseContract.CitasEntry.FECHA, Query.Direction.DESCENDING);
+                .collection(FirebaseContract.ProfesionalEntry.NODE_NAME)
+                .document(mAuth.getUid()).collection(FirebaseContract.CitasEntry.NODE_NAME).orderBy(FirebaseContract.CitasEntry.FECHA, Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<Citas> options = new FirestoreRecyclerOptions.Builder<Citas>()
                 .setQuery(query, Citas.class).setLifecycleOwner(this).build();
@@ -89,20 +101,6 @@ public class HomeProfesionalFragment extends Fragment {
 
             }
         });
-
-        return root;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
     }
 
 }
