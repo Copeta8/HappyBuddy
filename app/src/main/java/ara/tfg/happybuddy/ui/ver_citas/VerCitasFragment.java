@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.firebase.ui.common.ChangeEventType;
 import com.firebase.ui.firestore.ChangeEventListener;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -45,13 +43,11 @@ public class VerCitasFragment extends Fragment {
 
     ArrayList<Profesional> listaProfesionales;
     Profesional profesionalElegido;
-    ArrayList<Citas> listaCitas;
 
     CitasUserAdapter citasAdapter;
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

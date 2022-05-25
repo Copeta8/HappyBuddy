@@ -326,7 +326,6 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString("user_marital_status", user.getEstado_civil());
 
         editor.apply();
-
     }
 
 }

@@ -32,13 +32,10 @@ public class MainUsuarioActivity extends AppCompatActivity {
     private ActivityMainUsuarioBinding binding;
 
     private FirebaseAuth auth;
-    private FirebaseFirestore mDatabase;
     FirebaseUser userFB;
 
     Usuario usuario;
     TextView tvNombre, tvEmail;
-
-    String lastDocumetId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

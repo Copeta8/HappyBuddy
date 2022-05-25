@@ -44,8 +44,6 @@ public class CitasProfAdapter extends FirestoreRecyclerAdapter<Citas, CitasProfA
 
     @Override
     protected void onBindViewHolder(@NonNull CitasProfAdapter.CitasHolder holder, int position, @NonNull Citas model) {
-        //holder.tvNombre.setText(model.getPaciente_UID());
-        //System.out.println("Esta es la fecha: " + model.getFecha());
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -73,7 +71,6 @@ public class CitasProfAdapter extends FirestoreRecyclerAdapter<Citas, CitasProfA
             holder.cvFechas.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E0F2F1")));
         }
         holder.tvFechaCita.setText(model.fechaFormatoLocal());
-
     }
 
     @NonNull
@@ -82,7 +79,6 @@ public class CitasProfAdapter extends FirestoreRecyclerAdapter<Citas, CitasProfA
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.citas_item, parent, false);
         return new CitasHolder(itemView);
     }
-
 
     public class CitasHolder extends RecyclerView.ViewHolder {
 
@@ -100,8 +96,6 @@ public class CitasProfAdapter extends FirestoreRecyclerAdapter<Citas, CitasProfA
             cvFechas = itemView.findViewById(R.id.cvCita);
             clCita = itemView.findViewById(R.id.constrainLayout);
             ivCitaDone = itemView.findViewById(R.id.ivCitaDone);
-
-
         }
     }
 }

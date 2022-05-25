@@ -1,6 +1,5 @@
 package ara.tfg.happybuddy.ui.home_profesional;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,17 +31,9 @@ import ara.tfg.happybuddy.model.FirebaseContract;
 public class HomeProfesionalFragment extends Fragment {
 
     private FragmentHomeProfesionalBinding binding;
-    RecyclerView rvCitasProf;
 
     CitasProfAdapter citasProfAdapter;
-    FirebaseFirestore db;
     FirebaseAuth mAuth;
-
-    String usuario_uid;
-    String profesional_uid;
-    String fecha_cita;
-    boolean esAdmin;
-    RecyclerView rvNose;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

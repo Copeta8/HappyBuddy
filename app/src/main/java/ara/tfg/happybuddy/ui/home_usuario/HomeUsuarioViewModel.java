@@ -23,11 +23,9 @@ public class HomeUsuarioViewModel extends AndroidViewModel {
 
 
     private FirebaseFirestore mDatabase;
-    MutableLiveData<String> citas;
 
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseUser user = auth.getCurrentUser();
-
 
     private final MutableLiveData<String> mText;
     private final Usuario usuario;

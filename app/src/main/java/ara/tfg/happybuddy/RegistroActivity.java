@@ -33,12 +33,10 @@ import ara.tfg.happybuddy.model.Usuario;
 
 public class RegistroActivity extends AppCompatActivity {
 
-
     public final static String EXTRA_EMAIL = "ara.tfg.happybuddy.RegistroActivity.correo";
     public final static String EXTRA_PASSWORD = "ara.tfg.happybuddy.RegistroActivity.password";
     public final static String EXTRA_LAST_DOCUMENT_ID = "ara.tfg.happybuddy.RegistroActivity.last_document_id";
     public final static String EXTRA_USER = "ara.tfg.happybuddy.RegistroActivity.user";
-
 
     TextView tvCorreo;
     EditText etRegPassword, etRepPassword, etMaster;

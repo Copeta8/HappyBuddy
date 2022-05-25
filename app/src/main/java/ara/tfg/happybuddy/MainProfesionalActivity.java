@@ -38,13 +38,10 @@ public class MainProfesionalActivity extends AppCompatActivity {
     private ActivityMainProfesionalBinding binding;
 
     private FirebaseAuth auth;
-    private FirebaseFirestore mDatabase;
     FirebaseUser userFB;
 
-    //ArrayList<Usuario> usuarios;
     Usuario usuario;
     TextView tvNombre, tvEmail;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -30,10 +30,7 @@ public class HomeUsuarioFragment extends Fragment {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseUser user = auth.getCurrentUser();
 
-    String name, apellidos, email, telf, uid, direccion, pais, genero, estado_civil;
-    boolean isAdmin;
 
-    TextView tvProximaCita;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -70,10 +67,6 @@ public class HomeUsuarioFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        String nombre = usuario.getNombre();
-
-
-       // binding.tvNombreProf.setText(nombre);
 
     }
 

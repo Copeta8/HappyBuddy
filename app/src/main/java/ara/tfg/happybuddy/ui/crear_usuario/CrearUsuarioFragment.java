@@ -32,8 +32,6 @@ public class CrearUsuarioFragment extends Fragment {
     String userUID, nombre, apellidos, email, direccion, telefono, pais, genero, estadoCivil;
     boolean esAdmin;
 
-    String master;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         CrearUsuarioViewModel crearUsuarioViewModel =
