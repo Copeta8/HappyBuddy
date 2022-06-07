@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/nav_crear_usuario"
         android:name="ara.tfg.happybuddy.ui.crear_usuario.CrearUsuarioFragment"
-        android:label="@string/aceptar"
+        android:label="@string/crear_usuario"
         tools:layout="@layout/fragment_crear_usuario" />
 
 </navigation>
