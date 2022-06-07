@@ -82,7 +82,7 @@ public class CitasUserAdapter extends FirestoreRecyclerAdapter<Citas, CitasUserA
     @NonNull
     @Override
     public CitasUserAdapter.CitasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.citas_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_citas, parent, false);
         return new CitasHolder(itemView);
     }
 
